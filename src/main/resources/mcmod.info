@@ -1,0 +1,21 @@
+[
+{
+  "modid": "faeries",
+  "name": "Faeries",
+  "description": "Breed faeries that generate various items",
+  "version": "0.1",
+  "mcversion": "1.10.2",
+  "url": "",
+  "updateUrl": "",
+  "authorList": [
+    "ernstlustig"
+  ],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [
+  ],
+  "parent":"",
+  "dependencies": [
+  ]
+}
+]
