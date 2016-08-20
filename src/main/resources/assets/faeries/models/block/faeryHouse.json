@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "faeries:blocks/faeryHouse",
+    "up": "faeries:blocks/faeryHouse",
+    "north": "faeries:blocks/faeryHouse",
+    "east": "faeries:blocks/faeryHouse",
+    "south": "faeries:blocks/faeryHouse",
+    "west": "faeries:blocks/faeryHouse",
+    "particle": "faeries:blocks/faeryHouse"
+  }
+}

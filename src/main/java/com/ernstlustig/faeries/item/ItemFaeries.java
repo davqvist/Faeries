@@ -1,5 +1,6 @@
 package com.ernstlustig.faeries.item;
 
+import com.ernstlustig.faeries.creativetab.CreativeTabFaeries;
 import com.ernstlustig.faeries.reference.Reference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -9,7 +10,7 @@ public class ItemFaeries extends Item {
     public ItemFaeries(){
         super();
         this.setMaxStackSize(64);
-        //this.setCreativeTab( CreativeTabFaeries.FAERIES_TAB );
+        this.setCreativeTab( CreativeTabFaeries.FAERIES_TAB );
     }
 
     @Override

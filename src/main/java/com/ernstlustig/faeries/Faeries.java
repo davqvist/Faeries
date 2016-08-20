@@ -1,5 +1,6 @@
 package com.ernstlustig.faeries;
 
+import com.ernstlustig.faeries.init.ModBlocks;
 import com.ernstlustig.faeries.init.ModItems;
 import com.ernstlustig.faeries.proxy.IProxy;
 import com.ernstlustig.faeries.reference.Reference;
@@ -23,13 +24,13 @@ public class Faeries {
         //ConfigurationHandler.init( event.getSuggestedConfigurationFile() );
         //FMLCommonHandler.instance().bus().register( new ConfigurationHandler() );
         ModItems.registerItems();
-        //ModBlocks.registerBlocks();
+        ModBlocks.registerBlocks();
     }
 
     @Mod.EventHandler
     public void init( FMLInitializationEvent event ){
         ModItems.loadTextures();
-        //ModBlocks.loadTextures();
+        ModBlocks.loadTextures();
     }
 
     @Mod.EventHandler
