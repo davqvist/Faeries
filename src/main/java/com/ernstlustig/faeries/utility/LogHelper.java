@@ -1,6 +1,6 @@
-package com.ernstlustig.faeries.proxy.utility;
+package com.ernstlustig.faeries.utility;
 
-import com.ernstlustig.faeries.proxy.reference.Reference;
+import com.ernstlustig.faeries.reference.Reference;
 import net.minecraftforge.fml.common.FMLLog;
 import org.apache.logging.log4j.Level;
 

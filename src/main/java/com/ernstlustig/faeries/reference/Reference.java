@@ -1,4 +1,4 @@
-package com.ernstlustig.faeries.proxy.reference;
+package com.ernstlustig.faeries.reference;
 
 public class Reference {
     public static final String MOD_ID = "faeries";
