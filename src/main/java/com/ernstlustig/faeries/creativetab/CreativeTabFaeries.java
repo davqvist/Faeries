@@ -6,15 +6,10 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
 public class CreativeTabFaeries {
-    public static final CreativeTabs FAERIES_TAB = new CreativeTabs( Reference.MOD_ID ) {
+    public static final CreativeTabs FAERIES_TAB = new CreativeTabs( Reference.MOD_ID.toLowerCase() ) {
         @Override
         public Item getTabIconItem() {
             return ModItems.brailer;
-        }
-
-        @Override
-        public String getTranslatedTabLabel(){
-            return Reference.MOD_NAME;
         }
     };
 }

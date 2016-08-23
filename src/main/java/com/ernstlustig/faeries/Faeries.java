@@ -25,12 +25,13 @@ public class Faeries {
         //FMLCommonHandler.instance().bus().register( new ConfigurationHandler() );
         ModItems.registerItems();
         ModBlocks.registerBlocks();
+
+        ModItems.loadTextures();
+        ModBlocks.loadTextures();
     }
 
     @Mod.EventHandler
     public void init( FMLInitializationEvent event ){
-        ModItems.loadTextures();
-        ModBlocks.loadTextures();
     }
 
     @Mod.EventHandler
