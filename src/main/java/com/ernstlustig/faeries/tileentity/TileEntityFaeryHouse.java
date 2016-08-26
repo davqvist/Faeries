@@ -1,7 +1,10 @@
 package com.ernstlustig.faeries.tileentity;
 
+import com.ernstlustig.faeries.item.EnumRace;
+import com.ernstlustig.faeries.item.ItemFaery;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,7 +21,7 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
     public static final int INPUT_SIZE = 1;
     public static final int OUTPUT_SIZE = 15;
     private int time;
-    private boolean flag = false;
+    private boolean flag;
     public static final int MAX_TIME = 400;
 
     private ItemStackHandler inputStack = new ItemStackHandler( INPUT_SIZE ) {
@@ -42,16 +45,26 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
         }
         if( time <= 0 && hasFaery() ){
             if( flag && !worldObj.isRemote ){
-                EntityItem produce = new EntityItem( worldObj, pos.getX(), pos.getY()+1, pos.getZ(), new ItemStack( Items.STICK ) );
-                worldObj.spawnEntityInWorld( produce );
+                boolean temp = false;
+                int i = 0;
+                ItemStack produce = new ItemStack( EnumRace.valueOf( ItemFaery.getRace( inputStack.getStackInSlot(0) ) ).getItem() );
+                while( !temp ){
+                    if( outputStack.insertItem( i, produce, false ) == null ){ temp = true; }
+                    i++;
+                    if( i == OUTPUT_SIZE && !temp ){
+                        EntityItem produceEntity = new EntityItem( worldObj, pos.getX(), pos.getY()+1, pos.getZ(), produce );
+                        worldObj.spawnEntityInWorld( produceEntity );
+                        temp = true;
+                    }
+                }
             }
             time = MAX_TIME;
             flag = true;
         }
         time--;
-        if( hasFaery() ){
+        /*if( hasFaery() ){
             markDirty();
-        }
+        }*/
     }
 
     @Override
@@ -66,6 +79,10 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
         if( compound.hasKey( "time" ) ){
             time = compound.getInteger( "time" );
         }
+    }
+
+    public NBTTagCompound getUpdateTag() {
+        return this.writeToNBT( new NBTTagCompound() );
     }
 
     @Override
@@ -92,7 +109,7 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
     @Override
     public <T> T getCapability( Capability<T> capability, EnumFacing facing ){
         if( capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ){
-            if(  facing == null ){ return (T) new CombinedInvWrapper( inputStack, outputStack ); }
+            if( facing == null ){ return (T) new CombinedInvWrapper( inputStack, outputStack ); }
             return (T) outputStack;
         }
         return super.getCapability(capability, facing);

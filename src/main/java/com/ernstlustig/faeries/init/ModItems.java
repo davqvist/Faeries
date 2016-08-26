@@ -1,5 +1,6 @@
 package com.ernstlustig.faeries.init;
 
+import com.ernstlustig.faeries.item.EnumRace;
 import com.ernstlustig.faeries.item.ItemBrailer;
 import com.ernstlustig.faeries.item.ItemFaeries;
 import com.ernstlustig.faeries.item.ItemFaery;
@@ -31,7 +32,7 @@ public class ModItems {
         ModelLoader.setCustomModelResourceLocation( brailer, 0, new ModelResourceLocation( brailer.getUnlocalizedName().substring(5), "inventory" ) );
         //ModelLoader.setCustomModelResourceLocation( faery, 0, new ModelResourceLocation( faery.getUnlocalizedName().substring(5), "inventory" ) );
         List<ModelResourceLocation> models = new ArrayList<ModelResourceLocation>();
-        for( ItemFaery.Race race : ItemFaery.Race.values() ){
+        for( EnumRace race : EnumRace.values() ){
             models.add( new ModelResourceLocation( faery.getUnlocalizedName().substring(5) + "_" + race.name().toLowerCase( Locale.ENGLISH ), "inventory" ) );
             //JsonHelper.createJson( Integer.toString( i ) );
         }

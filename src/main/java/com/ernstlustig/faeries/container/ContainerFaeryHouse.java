@@ -58,7 +58,7 @@ public class ContainerFaeryHouse extends Container {
                 addSlotToContainer( new SlotItemHandler( itemHandler, 1 + col + row * 5, x, y ){
                     @Override
                     public boolean isItemValid( ItemStack stack ){
-                        return true;//false
+                        return false;
                     }
                 });
             }

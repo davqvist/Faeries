@@ -14,8 +14,6 @@ import java.util.Locale;
 
 public class ItemFaery extends ItemFaeries {
 
-    public enum Race { ROCK, EARTH, WATER, FOREST }
-
     public ItemFaery(){
         super();
         setRegistryName("faery");
@@ -67,7 +65,7 @@ public class ItemFaery extends ItemFaeries {
     @Override
     public void getSubItems( Item itemIn, CreativeTabs tab, List<ItemStack> subItems ){
         super.getSubItems( itemIn, tab, subItems );
-        for( Race race : Race.values() ){
+        for( EnumRace race : EnumRace.values() ){
             ItemStack itemstack = new ItemStack( itemIn );
             subItems.add( this.setRace( itemstack, race.name() ) );
         }
