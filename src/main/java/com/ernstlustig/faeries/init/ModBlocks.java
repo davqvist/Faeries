@@ -2,6 +2,7 @@ package com.ernstlustig.faeries.init;
 
 import com.ernstlustig.faeries.block.BlockFaeries;
 import com.ernstlustig.faeries.block.BlockFaeryHouse;
+import com.ernstlustig.faeries.tileentity.TileEntityFaeryHouse;
 import com.ernstlustig.faeries.reference.Reference;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -18,6 +19,7 @@ public class ModBlocks {
     public static void registerBlocks(){
         GameRegistry.register( faeryHouse );
         GameRegistry.register( new ItemBlock( faeryHouse ), faeryHouse.getRegistryName() );
+        GameRegistry.registerTileEntity( TileEntityFaeryHouse.class, Reference.MOD_ID + "_tileentityfaeryhouse" );
     }
 
     @SideOnly(Side.CLIENT)

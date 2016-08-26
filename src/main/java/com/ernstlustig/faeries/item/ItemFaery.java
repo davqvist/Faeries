@@ -22,7 +22,6 @@ public class ItemFaery extends ItemFaeries {
         setUnlocalizedName("faery");
     }
 
-    //TODO: RaceEnum
     public ItemStack setRace( ItemStack itemstack, String name ){
         NBTTagCompound nbtTagCompound = itemstack.getTagCompound();
         if( nbtTagCompound == null ){

@@ -36,11 +36,13 @@ public class ItemBrailer extends ItemFaeries {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer playerIn, EnumHand hand) {
+        int percentage = 20;
+
         if( !world.isRemote ){
             int chance = new Random().nextInt(100);
             int racenr = new Random().nextInt( ItemFaery.Race.values().length );
-            if( chance<=10 ){ world.spawnEntityInWorld( new EntityItem( world, playerIn.posX, playerIn.posY, playerIn.posZ, ModItems.faery.setRace( new ItemStack( ModItems.faery ), ItemFaery.Race.values()[racenr].name() ) ) ); }
-            //playerIn.addChatComponentMessage( new TextComponentString( Integer.toString( chance ) ) );
+            if( chance<=percentage ){ world.spawnEntityInWorld( new EntityItem( world, playerIn.posX, playerIn.posY, playerIn.posZ, ModItems.faery.setRace( new ItemStack( ModItems.faery ), ItemFaery.Race.values()[racenr].name() ) ) ); }
+            playerIn.addChatComponentMessage( new TextComponentString( Integer.toString( chance ) ) );
         }
         return new ActionResult<>(EnumActionResult.SUCCESS, stack);
     }
