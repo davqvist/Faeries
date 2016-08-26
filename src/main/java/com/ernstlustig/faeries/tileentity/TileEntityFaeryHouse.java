@@ -1,18 +1,25 @@
 package com.ernstlustig.faeries.tileentity;
 
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
-public class TileEntityFaeryHouse extends TileEntity {
+public class TileEntityFaeryHouse extends TileEntity implements ITickable {
 
     public static final int INPUT_SIZE = 1;
     public static final int OUTPUT_SIZE = 15;
+    private int time;
+    private boolean flag = false;
+    public static final int MAX_TIME = 400;
 
     private ItemStackHandler inputStack = new ItemStackHandler( INPUT_SIZE ) {
         @Override
@@ -28,6 +35,26 @@ public class TileEntityFaeryHouse extends TileEntity {
     };
 
     @Override
+    public void update() {
+        if( !hasFaery() ){
+            time = 0;
+            flag = false;
+        }
+        if( time <= 0 && hasFaery() ){
+            if( flag && !worldObj.isRemote ){
+                EntityItem produce = new EntityItem( worldObj, pos.getX(), pos.getY()+1, pos.getZ(), new ItemStack( Items.STICK ) );
+                worldObj.spawnEntityInWorld( produce );
+            }
+            time = MAX_TIME;
+            flag = true;
+        }
+        time--;
+        if( hasFaery() ){
+            markDirty();
+        }
+    }
+
+    @Override
     public void readFromNBT( NBTTagCompound compound ){
         super.readFromNBT( compound );
         if( compound.hasKey( "input" ) ){
@@ -36,6 +63,9 @@ public class TileEntityFaeryHouse extends TileEntity {
         if( compound.hasKey( "output" ) ){
             outputStack.deserializeNBT( (NBTTagCompound) compound.getTag( "output" ) );
         }
+        if( compound.hasKey( "time" ) ){
+            time = compound.getInteger( "time" );
+        }
     }
 
     @Override
@@ -43,6 +73,7 @@ public class TileEntityFaeryHouse extends TileEntity {
         super.writeToNBT( compound );
         compound.setTag( "input", inputStack.serializeNBT() );
         compound.setTag( "output", outputStack.serializeNBT() );
+        compound.setInteger( "time", time );
         return compound;
     }
 
@@ -65,6 +96,14 @@ public class TileEntityFaeryHouse extends TileEntity {
             return (T) outputStack;
         }
         return super.getCapability(capability, facing);
+    }
+
+    public int getTime(){
+        return time;
+    }
+
+    public boolean hasFaery(){
+        return ( inputStack.getStackInSlot(0) != null );
     }
 
 }
