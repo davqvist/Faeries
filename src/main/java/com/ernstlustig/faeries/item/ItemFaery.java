@@ -1,6 +1,6 @@
 package com.ernstlustig.faeries.item;
 
-import com.ernstlustig.faeries.utility.LogHelper;
+import com.ernstlustig.faeries.utility.NBTHelper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -14,30 +14,37 @@ import java.util.Locale;
 
 public class ItemFaery extends ItemFaeries {
 
+    public enum EnumGender{ MALE, FEMALE, COUPLE }
+
     public ItemFaery(){
         super();
         setRegistryName("faery");
         setUnlocalizedName("faery");
     }
 
+    public static String getRace( ItemStack itemstack ){
+        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
+        if( nbtTagCompound.hasKey( "race" ) ){ return nbtTagCompound.getString( "race" ); }
+        return "default";
+    }
+
     public ItemStack setRace( ItemStack itemstack, String name ){
-        NBTTagCompound nbtTagCompound = itemstack.getTagCompound();
-        if( nbtTagCompound == null ){
-            nbtTagCompound = new NBTTagCompound();
-            itemstack.setTagCompound( nbtTagCompound );
-        }
+        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
         nbtTagCompound.setString( "race", name );
         return itemstack;
     }
 
-    public static String getRace( ItemStack itemstack ){
-        NBTTagCompound nbtTagCompound = itemstack.getTagCompound();
-        if( nbtTagCompound == null ){
-            nbtTagCompound = new NBTTagCompound();
-            itemstack.setTagCompound( nbtTagCompound );
-        }
-        if( nbtTagCompound.hasKey( "race" ) ){ return nbtTagCompound.getString( "race" ); }
+    public static String getGender( ItemStack itemstack ){
+        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
+        if( nbtTagCompound.hasKey( "gender" ) ){ return nbtTagCompound.getString( "gender" ); }
         return "default";
+    }
+
+    public ItemStack setGender( ItemStack itemstack, String name ){
+        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
+        nbtTagCompound.setString( "gender", name );
+        if( name.equals( EnumGender.COUPLE ) ){ itemstack.getItem().setMaxStackSize( 1 ); }
+        return itemstack;
     }
 
     @Override
@@ -56,18 +63,22 @@ public class ItemFaery extends ItemFaeries {
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced )
     {
         super.addInformation( stack, playerIn, tooltip, advanced );
-        /*NBTTagCompound nbtTagCompound = stack.getTagCompound();
-        if( nbtTagCompound != null && nbtTagCompound.hasKey( "race" ) ) {
-            tooltip.add( Integer.toString( nbtTagCompound.getInteger( "race" ) ) );
-        }*/
+        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( stack );
+        if( nbtTagCompound != null && nbtTagCompound.hasKey( "gender" ) ) {
+            tooltip.add( nbtTagCompound.getString( "gender" ) );
+        }
     }
 
     @Override
     public void getSubItems( Item itemIn, CreativeTabs tab, List<ItemStack> subItems ){
         super.getSubItems( itemIn, tab, subItems );
         for( EnumRace race : EnumRace.values() ){
-            ItemStack itemstack = new ItemStack( itemIn );
-            subItems.add( this.setRace( itemstack, race.name() ) );
+            for( EnumGender gender : EnumGender.values() ){
+                ItemStack itemstack = new ItemStack( itemIn );
+                itemstack = this.setRace( itemstack, race.name() );
+                itemstack = this.setGender( itemstack, gender.name() );
+                subItems.add( itemstack );
+            }
         }
     }
 

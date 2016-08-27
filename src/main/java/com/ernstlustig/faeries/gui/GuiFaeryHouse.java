@@ -3,7 +3,6 @@ package com.ernstlustig.faeries.gui;
 import com.ernstlustig.faeries.container.ContainerFaeryHouse;
 import com.ernstlustig.faeries.reference.Reference;
 import com.ernstlustig.faeries.tileentity.TileEntityFaeryHouse;
-import com.ernstlustig.faeries.utility.LogHelper;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.util.ResourceLocation;
 

@@ -1,14 +1,13 @@
 package com.ernstlustig.faeries.container;
 
-import com.ernstlustig.faeries.init.ModBlocks;
 import com.ernstlustig.faeries.init.ModItems;
+import com.ernstlustig.faeries.item.ItemFaery;
 import com.ernstlustig.faeries.tileentity.TileEntityFaeryHouse;
 import com.sun.istack.internal.Nullable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -44,10 +43,24 @@ public class ContainerFaeryHouse extends Container {
     private void addOwnSlots() {
         IItemHandler itemHandler = this.te.getCapability( CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null );
 
-        addSlotToContainer( new SlotItemHandler( itemHandler, 0, 10, 6 ){
+        addSlotToContainer( new SlotItemHandler( itemHandler, 0, 18, 6 ){
             @Override
             public boolean isItemValid( ItemStack stack ){
-                return stack.getItem() == ModItems.faery;
+                return ( stack.getItem() == ModItems.faery ) && ItemFaery.getGender( stack ).equals( ItemFaery.EnumGender.COUPLE.toString() );
+            }
+        });
+
+        addSlotToContainer( new SlotItemHandler( itemHandler, 1, 9, 43 ){
+            @Override
+            public boolean isItemValid( ItemStack stack ){
+                return ( stack.getItem() == ModItems.faery ) && ItemFaery.getGender( stack ).equals( ItemFaery.EnumGender.MALE.toString() );
+            }
+        });
+
+        addSlotToContainer( new SlotItemHandler( itemHandler, 2, 27, 43 ){
+            @Override
+            public boolean isItemValid( ItemStack stack ){
+                return ( stack.getItem() == ModItems.faery ) && ItemFaery.getGender( stack ).equals( ItemFaery.EnumGender.FEMALE.toString() );
             }
         });
 
@@ -55,7 +68,7 @@ public class ContainerFaeryHouse extends Container {
             for( int col = 0; col < 5; col++ ){
                 int x = 82 + col * 18;
                 int y = row * 18 + 6;
-                addSlotToContainer( new SlotItemHandler( itemHandler, 1 + col + row * 5, x, y ){
+                addSlotToContainer( new SlotItemHandler( itemHandler, 3 + col + row * 5, x, y ){
                     @Override
                     public boolean isItemValid( ItemStack stack ){
                         return false;
@@ -79,7 +92,7 @@ public class ContainerFaeryHouse extends Container {
                 if( !this.mergeItemStack( itemstack1, TileEntityFaeryHouse.INPUT_SIZE + TileEntityFaeryHouse.OUTPUT_SIZE, this.inventorySlots.size(), true ) ){
                     return null;
                 }
-            } else if( !this.mergeItemStack( itemstack1, 0, TileEntityFaeryHouse.INPUT_SIZE + TileEntityFaeryHouse.OUTPUT_SIZE, false ) ){
+            } else if( !this.mergeItemStack( itemstack1, 0, TileEntityFaeryHouse.INPUT_SIZE, false ) ){
                 return null;
             }
 

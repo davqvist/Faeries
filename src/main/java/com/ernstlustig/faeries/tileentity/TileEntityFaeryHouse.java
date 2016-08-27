@@ -4,8 +4,6 @@ import com.ernstlustig.faeries.item.EnumRace;
 import com.ernstlustig.faeries.item.ItemFaery;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -18,7 +16,7 @@ import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
 public class TileEntityFaeryHouse extends TileEntity implements ITickable {
 
-    public static final int INPUT_SIZE = 1;
+    public static final int INPUT_SIZE = 3;
     public static final int OUTPUT_SIZE = 15;
     private int time;
     private boolean flag;
