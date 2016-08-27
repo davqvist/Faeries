@@ -8,7 +8,7 @@ import net.minecraft.item.ItemBlock;
 public enum EnumRace {
 
     ROCK( Item.getItemFromBlock( Blocks.COBBLESTONE ), EnumLifespan.NORMAL ),
-    EARTH( Item.getItemFromBlock( Blocks.DIRT ), EnumLifespan.NORMAL ),
+    EARTH( Item.getItemFromBlock( Blocks.DIRT ), EnumLifespan.SHORT ),
     WATER( Items.POTIONITEM, EnumLifespan.NORMAL ),
     FOREST( Item.getItemFromBlock( Blocks.SAPLING ), EnumLifespan.NORMAL );
 

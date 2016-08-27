@@ -11,6 +11,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
@@ -55,10 +56,7 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
                 age = Math.max( 0, age-1 );
                 if( age > 0 ){ ModItems.faery.setAge( inputStack.getStackInSlot(0), age ); } else{
                     for( int i=1; i<=3; i++ ){
-                        ItemStack offspring = new ItemStack( ModItems.faery );
-                        offspring = ModItems.faery.setRace( offspring, ItemFaery.getRace( inputStack.getStackInSlot(0) ) );
-                        int coin = new Random().nextInt(2);
-                        offspring = ModItems.faery.setGender( offspring, ItemFaery.EnumGender.values()[coin].name() );
+                        ItemStack offspring = ModItems.faery.getOffspring( inputStack.getStackInSlot(0) );
                         setItemStackInOutputSlot( offspring );
                     }
                     inputStack.extractItem( 0, 1, false );
@@ -78,9 +76,9 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
         }
         if( marrytime <= 0 && canMarry() ){
             if( marryflag && !worldObj.isRemote ){
-                ItemStack couple = new ItemStack( ModItems.faery );
-                couple = ModItems.faery.setRace( couple, ItemFaery.getRace( inputStack.getStackInSlot(1) ) );
+                ItemStack couple = inputStack.getStackInSlot(1).copy();
                 couple = ModItems.faery.setGender( couple, ItemFaery.EnumGender.COUPLE.toString() );
+                couple = ModItems.faery.setCoupleTraits( couple, inputStack.getStackInSlot(2) );
                 inputStack.insertItem( 0, couple, false );
                 inputStack.extractItem( 1, 1, false );
                 inputStack.extractItem( 2, 1, false );
