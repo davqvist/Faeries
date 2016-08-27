@@ -1,11 +1,13 @@
 package com.ernstlustig.faeries.item;
 
+import com.ernstlustig.faeries.init.ModItems;
 import com.ernstlustig.faeries.utility.NBTHelper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -15,7 +17,6 @@ import java.util.Locale;
 public class ItemFaery extends ItemFaeries {
 
     public enum EnumGender{ MALE, FEMALE, COUPLE }
-    private static final int MAXAGE = 5;
 
     public ItemFaery(){
         super();
@@ -51,7 +52,7 @@ public class ItemFaery extends ItemFaeries {
     public static int getAge( ItemStack itemstack ){
         NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
         if( nbtTagCompound.hasKey( "age" ) ){ return nbtTagCompound.getInteger( "age" ); }
-        return ItemFaery.getMaxAge( itemstack );
+        return ItemFaery.getLifespan( itemstack );
     }
 
     public ItemStack setAge( ItemStack itemstack, int age ){
@@ -60,15 +61,17 @@ public class ItemFaery extends ItemFaeries {
         return itemstack;
     }
 
-    public static int getMaxAge( ItemStack itemstack ){
+    public static int getLifespan( ItemStack itemstack ){
         NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
-        if( nbtTagCompound.hasKey( "maxage" ) ){ return nbtTagCompound.getInteger( "maxage" ); }
-        return MAXAGE;
+        if( nbtTagCompound.hasKey( "lifespan" ) ){ return nbtTagCompound.getInteger( "lifespan" ); }
+        int maxage = EnumRace.valueOf( ModItems.faery.getRace( itemstack ) ).getLifespan().getMaxAge();
+        ModItems.faery.setLifespan( itemstack, maxage );
+        return maxage;
     }
 
-    public ItemStack setMaxAge( ItemStack itemstack, int maxage ){
+    public ItemStack setLifespan( ItemStack itemstack, int lifespan ){
         NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
-        nbtTagCompound.setInteger( "maxage", maxage );
+        nbtTagCompound.setInteger( "lifespan", lifespan );
         return itemstack;
     }
 
@@ -88,10 +91,7 @@ public class ItemFaery extends ItemFaeries {
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced )
     {
         super.addInformation( stack, playerIn, tooltip, advanced );
-        /*NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( stack );
-        if( nbtTagCompound != null && nbtTagCompound.hasKey( "gender" ) ) {
-            tooltip.add( nbtTagCompound.getString( "gender" ) );
-        }*/
+        tooltip.add( "Lifespan: " + EnumLifespan.getLifespanFromMaxAge( ModItems.faery.getLifespan( stack ) ) );
     }
 
     @Override

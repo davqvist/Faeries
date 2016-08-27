@@ -7,18 +7,23 @@ import net.minecraft.item.ItemBlock;
 
 public enum EnumRace {
 
-    ROCK( Item.getItemFromBlock( Blocks.COBBLESTONE ) ),
-    EARTH( Item.getItemFromBlock( Blocks.DIRT ) ),
-    WATER( Items.POTIONITEM ),
-    FOREST( Item.getItemFromBlock( Blocks.SAPLING ) );
+    ROCK( Item.getItemFromBlock( Blocks.COBBLESTONE ), EnumLifespan.NORMAL ),
+    EARTH( Item.getItemFromBlock( Blocks.DIRT ), EnumLifespan.NORMAL ),
+    WATER( Items.POTIONITEM, EnumLifespan.NORMAL ),
+    FOREST( Item.getItemFromBlock( Blocks.SAPLING ), EnumLifespan.NORMAL );
 
-    private Item item;
+    private final Item item;
+    private final EnumLifespan lifespan;
 
-    EnumRace( Item item ){
+    EnumRace( Item item, EnumLifespan lifespan ){
         this.item = item;
+        this.lifespan = lifespan;
     }
 
     public Item getItem(){
         return item;
     }
+
+    public EnumLifespan getLifespan() { return lifespan; }
+    //TODO: add multiple items, each with a percentage chance
 }

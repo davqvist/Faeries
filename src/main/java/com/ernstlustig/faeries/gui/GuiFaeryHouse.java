@@ -4,8 +4,10 @@ import com.ernstlustig.faeries.container.ContainerFaeryHouse;
 import com.ernstlustig.faeries.item.ItemFaery;
 import com.ernstlustig.faeries.reference.Reference;
 import com.ernstlustig.faeries.tileentity.TileEntityFaeryHouse;
+import com.ernstlustig.faeries.utility.LogHelper;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.util.ResourceLocation;
+import sun.rmi.runtime.Log;
 
 import java.awt.*;
 
@@ -30,17 +32,17 @@ public class GuiFaeryHouse extends GuiContainer {
         drawTexturedModalRect( guiLeft, guiTop, 0, 0, xSize, ySize );
         float progress;
         if( te.hasCouple() ){
-            progress = 22 - ( te.getTime() * 22 / te.MAX_TIME );
+            progress = 22 - ( (float)te.getTime() * 22 / te.MAX_TIME );
             drawTexturedModalRect( guiLeft + 43, guiTop + 7, 180, 0, Math.round( progress ), 15 );
-            progress = 15 - ( ItemFaery.getAge( te.getCouple() ) * 15 / ItemFaery.getMaxAge( te.getCouple() ) );
+            progress = 15 - ( (float)ItemFaery.getAge( te.getCouple() ) * 15 / ItemFaery.getLifespan( te.getCouple() ) );
             drawHorizontalLine( guiLeft + 18, guiLeft + 33 - Math.round( progress ), guiTop + 25, new Color(
-                    Math.min( 255, Math.round( 510 * ( 1 - ItemFaery.getAge( te.getCouple() ) / ItemFaery.getMaxAge( te.getCouple() ) ) ) ),
-                    Math.min( 255, Math.round( 510 * ItemFaery.getAge( te.getCouple() ) / ItemFaery.getMaxAge( te.getCouple() ) ) ),
+                    Math.min( 255, Math.round( 510 * ( 1 - ( (float)ItemFaery.getAge( te.getCouple() ) / ItemFaery.getLifespan( te.getCouple() ) ) ) ) ),
+                    Math.min( 255, Math.round( 510 * (float)ItemFaery.getAge( te.getCouple() ) / ItemFaery.getLifespan( te.getCouple() ) ) ),
                     0 ).getRGB()
             );
         }
         if( te.canMarry() ){
-            progress = 10 - ( te.getMarryTime() * 10 / te.MAX_MARRYTIME );
+            progress = 10 - ( (float)te.getMarryTime() * 10 / te.MAX_MARRYTIME );
             drawTexturedModalRect( guiLeft + 20, guiTop + 40 - Math.round( progress ), 180, 26 - Math.round( progress ), 11, Math.round( progress ) );
         }
     }
