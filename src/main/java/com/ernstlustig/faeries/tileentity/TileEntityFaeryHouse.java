@@ -58,9 +58,7 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
                         ItemStack offspring = new ItemStack( ModItems.faery );
                         offspring = ModItems.faery.setRace( offspring, ItemFaery.getRace( inputStack.getStackInSlot(0) ) );
                         int coin = new Random().nextInt(2);
-                        if( coin == 0 ){ offspring = ModItems.faery.setGender( offspring, ItemFaery.EnumGender.MALE.toString() ); } else{
-                            offspring = ModItems.faery.setGender( offspring, ItemFaery.EnumGender.FEMALE.toString() );
-                        }
+                        offspring = ModItems.faery.setGender( offspring, ItemFaery.EnumGender.values()[coin].name() );
                         setItemStackInOutputSlot( offspring );
                     }
                     inputStack.extractItem( 0, 1, false );

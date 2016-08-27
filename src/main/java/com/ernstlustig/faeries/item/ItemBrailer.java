@@ -41,7 +41,10 @@ public class ItemBrailer extends ItemFaeries {
         if( !world.isRemote ){
             int chance = new Random().nextInt(100);
             int racenr = new Random().nextInt( EnumRace.values().length );
-            if( chance<=percentage ){ world.spawnEntityInWorld( new EntityItem( world, playerIn.posX, playerIn.posY, playerIn.posZ, ModItems.faery.setRace( new ItemStack( ModItems.faery ), EnumRace.values()[racenr].name() ) ) ); }
+            ItemStack faery = ModItems.faery.setRace( new ItemStack( ModItems.faery ), EnumRace.values()[racenr].name() );
+            int gendernr = new Random().nextInt(2);
+            faery = ModItems.faery.setGender( faery, ItemFaery.EnumGender.values()[gendernr].name() );
+            if( chance<=percentage ){ world.spawnEntityInWorld( new EntityItem( world, playerIn.posX, playerIn.posY, playerIn.posZ, faery ) ); }
             //playerIn.addChatComponentMessage( new TextComponentString( Integer.toString( chance ) ) );
         }
         return new ActionResult<>(EnumActionResult.SUCCESS, stack);
