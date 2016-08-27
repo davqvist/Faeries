@@ -1,5 +1,6 @@
 package com.ernstlustig.faeries.tileentity;
 
+import com.ernstlustig.faeries.init.ModItems;
 import com.ernstlustig.faeries.item.EnumRace;
 import com.ernstlustig.faeries.item.ItemFaery;
 import net.minecraft.entity.item.EntityItem;
@@ -14,13 +15,18 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
+import java.util.Random;
+
 public class TileEntityFaeryHouse extends TileEntity implements ITickable {
 
     public static final int INPUT_SIZE = 3;
     public static final int OUTPUT_SIZE = 15;
     private int time;
+    private int marrytime;
     private boolean flag;
+    private boolean marryflag;
     public static final int MAX_TIME = 400;
+    public static final int MAX_MARRYTIME = 100;
 
     private ItemStackHandler inputStack = new ItemStackHandler( INPUT_SIZE ) {
         @Override
@@ -37,32 +43,54 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
 
     @Override
     public void update() {
-        if( !hasFaery() ){
+        if( !hasCouple() ){
             time = 0;
             flag = false;
         }
-        if( time <= 0 && hasFaery() ){
+        if( time <= 0 && hasCouple() ){
             if( flag && !worldObj.isRemote ){
-                boolean temp = false;
-                int i = 0;
                 ItemStack produce = new ItemStack( EnumRace.valueOf( ItemFaery.getRace( inputStack.getStackInSlot(0) ) ).getItem() );
-                while( !temp ){
-                    if( outputStack.insertItem( i, produce, false ) == null ){ temp = true; }
-                    i++;
-                    if( i == OUTPUT_SIZE && !temp ){
-                        EntityItem produceEntity = new EntityItem( worldObj, pos.getX(), pos.getY()+1, pos.getZ(), produce );
-                        worldObj.spawnEntityInWorld( produceEntity );
-                        temp = true;
+                setItemStackInOutputSlot( produce );
+                int age = ItemFaery.getAge( inputStack.getStackInSlot(0) );
+                age = Math.max( 0, age-1 );
+                if( age > 0 ){ ModItems.faery.setAge( inputStack.getStackInSlot(0), age ); } else{
+                    for( int i=1; i<=3; i++ ){
+                        ItemStack offspring = new ItemStack( ModItems.faery );
+                        offspring = ModItems.faery.setRace( offspring, ItemFaery.getRace( inputStack.getStackInSlot(0) ) );
+                        int coin = new Random().nextInt(2);
+                        if( coin == 0 ){ offspring = ModItems.faery.setGender( offspring, ItemFaery.EnumGender.MALE.toString() ); } else{
+                            offspring = ModItems.faery.setGender( offspring, ItemFaery.EnumGender.FEMALE.toString() );
+                        }
+                        setItemStackInOutputSlot( offspring );
                     }
+                    inputStack.extractItem( 0, 1, false );
                 }
             }
             time = MAX_TIME;
             flag = true;
         }
         time--;
-        /*if( hasFaery() ){
+        /*if( hasCouple() ){
             markDirty();
         }*/
+
+        if( !canMarry() ){
+            marrytime = 0;
+            marryflag = false;
+        }
+        if( marrytime <= 0 && canMarry() ){
+            if( marryflag && !worldObj.isRemote ){
+                ItemStack couple = new ItemStack( ModItems.faery );
+                couple = ModItems.faery.setRace( couple, ItemFaery.getRace( inputStack.getStackInSlot(1) ) );
+                couple = ModItems.faery.setGender( couple, ItemFaery.EnumGender.COUPLE.toString() );
+                inputStack.insertItem( 0, couple, false );
+                inputStack.extractItem( 1, 1, false );
+                inputStack.extractItem( 2, 1, false );
+            }
+            marrytime = MAX_MARRYTIME;
+            marryflag = true;
+        }
+        marrytime--;
     }
 
     @Override
@@ -116,9 +144,34 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
     public int getTime(){
         return time;
     }
+    public int getMarryTime(){
+        return marrytime;
+    }
 
-    public boolean hasFaery(){
+    public boolean hasCouple(){
         return ( inputStack.getStackInSlot(0) != null );
     }
 
+    public boolean canMarry(){
+        return ( inputStack.getStackInSlot(0) == null ) && ( inputStack.getStackInSlot(1) != null ) && ( inputStack.getStackInSlot(2) != null );
+    }
+
+    public ItemStack getCouple(){
+        return inputStack.getStackInSlot(0);
+    }
+
+    private void setItemStackInOutputSlot( ItemStack itemstack ){
+        boolean temp = false;
+        int i = 0;
+        while( !temp ){
+            if( outputStack.insertItem( i, itemstack, false ) == null ){ temp = true; }
+            i++;
+            if( i == OUTPUT_SIZE && !temp ){
+                EntityItem produceEntity = new EntityItem( worldObj, pos.getX(), pos.getY()+1, pos.getZ(), itemstack );
+                worldObj.spawnEntityInWorld( produceEntity );
+                temp = true;
+            }
+        }
+    }
 }
+

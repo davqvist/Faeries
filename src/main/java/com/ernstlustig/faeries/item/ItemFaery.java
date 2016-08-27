@@ -15,6 +15,7 @@ import java.util.Locale;
 public class ItemFaery extends ItemFaeries {
 
     public enum EnumGender{ MALE, FEMALE, COUPLE }
+    private static final int MAXAGE = 5;
 
     public ItemFaery(){
         super();
@@ -47,6 +48,30 @@ public class ItemFaery extends ItemFaeries {
         return itemstack;
     }
 
+    public static int getAge( ItemStack itemstack ){
+        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
+        if( nbtTagCompound.hasKey( "age" ) ){ return nbtTagCompound.getInteger( "age" ); }
+        return ItemFaery.getMaxAge( itemstack );
+    }
+
+    public ItemStack setAge( ItemStack itemstack, int age ){
+        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
+        nbtTagCompound.setInteger( "age", age );
+        return itemstack;
+    }
+
+    public static int getMaxAge( ItemStack itemstack ){
+        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
+        if( nbtTagCompound.hasKey( "maxage" ) ){ return nbtTagCompound.getInteger( "maxage" ); }
+        return MAXAGE;
+    }
+
+    public ItemStack setMaxAge( ItemStack itemstack, int maxage ){
+        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
+        nbtTagCompound.setInteger( "maxage", maxage );
+        return itemstack;
+    }
+
     @Override
     public String getItemStackDisplayName( ItemStack stack ){
         //TODO: Translation
@@ -63,10 +88,10 @@ public class ItemFaery extends ItemFaeries {
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced )
     {
         super.addInformation( stack, playerIn, tooltip, advanced );
-        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( stack );
+        /*NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( stack );
         if( nbtTagCompound != null && nbtTagCompound.hasKey( "gender" ) ) {
             tooltip.add( nbtTagCompound.getString( "gender" ) );
-        }
+        }*/
     }
 
     @Override

@@ -48,6 +48,12 @@ public class ContainerFaeryHouse extends Container {
             public boolean isItemValid( ItemStack stack ){
                 return ( stack.getItem() == ModItems.faery ) && ItemFaery.getGender( stack ).equals( ItemFaery.EnumGender.COUPLE.toString() );
             }
+
+            @Override
+            public int getSlotStackLimit(){ return 1; }
+
+            @Override
+            public int getItemStackLimit( ItemStack stack ){ return 1; }
         });
 
         addSlotToContainer( new SlotItemHandler( itemHandler, 1, 9, 43 ){
@@ -93,6 +99,7 @@ public class ContainerFaeryHouse extends Container {
                     return null;
                 }
             } else if( !this.mergeItemStack( itemstack1, 0, TileEntityFaeryHouse.INPUT_SIZE, false ) ){
+                //TODO: Add ContainerFaeries which checks for SlotMaxStackSize as well
                 return null;
             }
 

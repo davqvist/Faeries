@@ -1,10 +1,13 @@
 package com.ernstlustig.faeries.gui;
 
 import com.ernstlustig.faeries.container.ContainerFaeryHouse;
+import com.ernstlustig.faeries.item.ItemFaery;
 import com.ernstlustig.faeries.reference.Reference;
 import com.ernstlustig.faeries.tileentity.TileEntityFaeryHouse;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.util.ResourceLocation;
+
+import java.awt.*;
 
 public class GuiFaeryHouse extends GuiContainer {
     public static final int WIDTH = 180;
@@ -25,9 +28,20 @@ public class GuiFaeryHouse extends GuiContainer {
     protected void drawGuiContainerBackgroundLayer( float partialTicks, int mouseX, int mouseY ){
         mc.getTextureManager().bindTexture( background );
         drawTexturedModalRect( guiLeft, guiTop, 0, 0, xSize, ySize );
-        if( te.hasFaery() ){
-            float progress = 22 - ( te.getTime() * 22 / te.MAX_TIME );
+        float progress;
+        if( te.hasCouple() ){
+            progress = 22 - ( te.getTime() * 22 / te.MAX_TIME );
             drawTexturedModalRect( guiLeft + 43, guiTop + 7, 180, 0, Math.round( progress ), 15 );
+            progress = 15 - ( ItemFaery.getAge( te.getCouple() ) * 15 / ItemFaery.getMaxAge( te.getCouple() ) );
+            drawHorizontalLine( guiLeft + 18, guiLeft + 33 - Math.round( progress ), guiTop + 25, new Color(
+                    Math.min( 255, Math.round( 510 * ( 1 - ItemFaery.getAge( te.getCouple() ) / ItemFaery.getMaxAge( te.getCouple() ) ) ) ),
+                    Math.min( 255, Math.round( 510 * ItemFaery.getAge( te.getCouple() ) / ItemFaery.getMaxAge( te.getCouple() ) ) ),
+                    0 ).getRGB()
+            );
+        }
+        if( te.canMarry() ){
+            progress = 10 - ( te.getMarryTime() * 10 / te.MAX_MARRYTIME );
+            drawTexturedModalRect( guiLeft + 20, guiTop + 40 - Math.round( progress ), 180, 26 - Math.round( progress ), 11, Math.round( progress ) );
         }
     }
 }
