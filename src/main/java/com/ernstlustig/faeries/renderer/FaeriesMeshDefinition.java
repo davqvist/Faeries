@@ -1,7 +1,6 @@
 package com.ernstlustig.faeries.renderer;
 
 import com.ernstlustig.faeries.init.ModItems;
-import com.ernstlustig.faeries.item.ItemFaeries;
 import com.ernstlustig.faeries.item.ItemFaery;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -13,7 +12,7 @@ public class FaeriesMeshDefinition implements ItemMeshDefinition {
 
         @Override
         public ModelResourceLocation getModelLocation( ItemStack stack ){
-            return new ModelResourceLocation( ModItems.faery.getUnlocalizedName().substring(5) + "_" + ItemFaery.getRace( stack ).toLowerCase( Locale.ENGLISH ), "inventory" );
+            return new ModelResourceLocation( ModItems.faery.getUnlocalizedName().substring(5) + "_" + ItemFaery.getRace( stack ).toLowerCase( Locale.ENGLISH ) + "_" + ItemFaery.getGender( stack ).toLowerCase( Locale.ENGLISH ), "inventory" );
         }
 
 }

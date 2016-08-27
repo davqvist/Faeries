@@ -43,7 +43,7 @@ public class ItemFaery extends ItemFaeries {
     public ItemStack setGender( ItemStack itemstack, String name ){
         NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
         nbtTagCompound.setString( "gender", name );
-        if( name.equals( EnumGender.COUPLE ) ){ itemstack.getItem().setMaxStackSize( 1 ); }
+        //if( name.equals( EnumGender.COUPLE ) ){ itemstack.getItem().setMaxStackSize( 1 ); }
         return itemstack;
     }
 

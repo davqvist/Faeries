@@ -30,11 +30,12 @@ public class ModItems {
     public static void loadTextures(){
         //Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register( brailer, 0, new ModelResourceLocation( brailer.getUnlocalizedName().substring(5), "inventory" ) );
         ModelLoader.setCustomModelResourceLocation( brailer, 0, new ModelResourceLocation( brailer.getUnlocalizedName().substring(5), "inventory" ) );
-        //ModelLoader.setCustomModelResourceLocation( faery, 0, new ModelResourceLocation( faery.getUnlocalizedName().substring(5), "inventory" ) );
         List<ModelResourceLocation> models = new ArrayList<ModelResourceLocation>();
         for( EnumRace race : EnumRace.values() ){
-            models.add( new ModelResourceLocation( faery.getUnlocalizedName().substring(5) + "_" + race.name().toLowerCase( Locale.ENGLISH ), "inventory" ) );
-            //JsonHelper.createJson( Integer.toString( i ) );
+            for( ItemFaery.EnumGender gender: ItemFaery.EnumGender.values() ){
+                models.add( new ModelResourceLocation( faery.getUnlocalizedName().substring(5) + "_" + race.name().toLowerCase( Locale.ENGLISH ) + "_" + gender.name().toLowerCase( Locale.ENGLISH ), "inventory" ) );
+                //JsonHelper.createJson( Integer.toString( i ) );
+            }
         }
         ModelLoader.registerItemVariants( faery, models.toArray( new ModelResourceLocation[models.size()] ) );
         ModelLoader.setCustomMeshDefinition( faery, new FaeriesMeshDefinition() );
