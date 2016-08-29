@@ -1,10 +1,12 @@
 package com.ernstlustig.faeries.item;
 
+import com.ernstlustig.faeries.init.ModItems;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.Mod;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,13 +17,14 @@ public enum EnumRace {
     ROCK( Arrays.asList( new Product( new ItemStack( Item.getItemFromBlock( Blocks.COBBLESTONE ) ), 80 ) ), EnumLifespan.NORMAL, null ),
     EARTH( Arrays.asList( new Product( new ItemStack( Item.getItemFromBlock( Blocks.DIRT ) ), 80 ),
                             new Product( new ItemStack( Item.getItemFromBlock( Blocks.GRASS ) ), 5 ) ), EnumLifespan.SHORT, null ),
-    WATER( Arrays.asList( new Product( new ItemStack( Items.POTIONITEM ), 80 ) ), EnumLifespan.NORMAL, null ),
+    WATER( Arrays.asList( new Product( new ItemStack( ModItems.waterdrop ), 80 ) ), EnumLifespan.NORMAL, null ),
     FOREST( Arrays.asList( new Product( new ItemStack( Item.getItemFromBlock( Blocks.SAPLING ) ), 10 ),
                             new Product( new ItemStack( Item.getItemFromBlock( Blocks.SAPLING ), 1, 1 ), 10 ),
                             new Product( new ItemStack( Item.getItemFromBlock( Blocks.SAPLING ), 1, 2 ), 10 ),
                             new Product( new ItemStack( Item.getItemFromBlock( Blocks.SAPLING ), 1, 3 ), 10 ),
                             new Product( new ItemStack( Item.getItemFromBlock( Blocks.SAPLING ), 1, 4 ), 10 ),
                             new Product( new ItemStack( Item.getItemFromBlock( Blocks.SAPLING ), 1, 5 ), 10 ) ), EnumLifespan.NORMAL, null ),
+    AIR( Arrays.asList( new Product( new ItemStack( ModItems.faerydust ), 60 ) ), EnumLifespan.LONG, null ),
     CLAY( Arrays.asList( new Product( new ItemStack( Items.CLAY_BALL ), 50 ) ), EnumLifespan.LONG, new Mutation( EnumRace.WATER, EnumRace.EARTH, 20 ) ),
     GRAVEL( Arrays.asList( new Product( new ItemStack( Item.getItemFromBlock( Blocks.GRAVEL ) ), 70 ) ), EnumLifespan.NORMAL, new Mutation( EnumRace.ROCK, EnumRace.EARTH, 20 ) );
 

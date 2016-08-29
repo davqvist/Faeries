@@ -14,7 +14,7 @@ public class Product {
     }
 
     public ItemStack getItemStack(){
-        return itemstack;
+        return itemstack.copy();
     }
 
     public int getChance(){

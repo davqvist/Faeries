@@ -1,9 +1,6 @@
 package com.ernstlustig.faeries.init;
 
-import com.ernstlustig.faeries.item.EnumRace;
-import com.ernstlustig.faeries.item.ItemBrailer;
-import com.ernstlustig.faeries.item.ItemFaeries;
-import com.ernstlustig.faeries.item.ItemFaery;
+import com.ernstlustig.faeries.item.*;
 import com.ernstlustig.faeries.renderer.FaeriesMeshDefinition;
 import com.ernstlustig.faeries.utility.JsonHelper;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -20,10 +17,14 @@ public class ModItems {
 
     public static final ItemBrailer brailer = new ItemBrailer();
     public static final ItemFaery faery = new ItemFaery();
+    public static final ItemWaterDrop waterdrop = new ItemWaterDrop();
+    public static final ItemFaeryDust faerydust = new ItemFaeryDust();
 
     public static void registerItems(){
         GameRegistry.register( brailer );
         GameRegistry.register( faery );
+        GameRegistry.register( waterdrop );
+        GameRegistry.register( faerydust );
     }
 
     @SideOnly(Side.CLIENT)
@@ -39,6 +40,8 @@ public class ModItems {
         }
         ModelLoader.registerItemVariants( faery, models.toArray( new ModelResourceLocation[models.size()] ) );
         ModelLoader.setCustomMeshDefinition( faery, new FaeriesMeshDefinition() );
+        ModelLoader.setCustomModelResourceLocation( waterdrop, 0, new ModelResourceLocation( waterdrop.getUnlocalizedName().substring(5), "inventory" ) );
+        ModelLoader.setCustomModelResourceLocation( faerydust, 0, new ModelResourceLocation( faerydust.getUnlocalizedName().substring(5), "inventory" ) );
     }
 
 }

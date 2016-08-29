@@ -1,5 +1,7 @@
 itemGroup.faeries=Faeries
 item.faeries:brailer.name=Brailer
 item.faeries:faery.name=Faery
+item.faeries:waterdrop.name=Water Drop
+item.faeries:faerydust.name=Faery Dust
 tile.faeries:faeryHouse.name=Faery House
 generator.faeries-skyblock=Faeries Skyblock
