@@ -1,6 +1,7 @@
 {
   "parent": "faeries:item/faery",
   "textures": {
-    "layer0": "faeries:items/faery_clay_couple"
+    "layer0": "faeries:items/faery_clay",
+    "layer1": "faeries:items/faery_couple"
   }
 }
