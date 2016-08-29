@@ -3,6 +3,8 @@ package com.ernstlustig.faeries.tileentity;
 import com.ernstlustig.faeries.init.ModItems;
 import com.ernstlustig.faeries.item.EnumRace;
 import com.ernstlustig.faeries.item.ItemFaery;
+import com.ernstlustig.faeries.item.Product;
+import com.ernstlustig.faeries.utility.LogHelper;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -50,8 +52,12 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
         }
         if( time <= 0 && hasCouple() ){
             if( flag && !worldObj.isRemote ){
-                ItemStack produce = new ItemStack( EnumRace.valueOf( ItemFaery.getRace( inputStack.getStackInSlot(0) ) ).getItem() );
-                setItemStackInOutputSlot( produce );
+                for( Product product : EnumRace.valueOf( ItemFaery.getRace( inputStack.getStackInSlot(0) ) ).getProducts() ){
+                    int percentage = new Random().nextInt(100);
+                    if( percentage < 0.5f * product.getChance() ) {
+                        setItemStackInOutputSlot( product.getItemStack() );
+                    }
+                }
                 int age = ItemFaery.getAge( inputStack.getStackInSlot(0) );
                 age = Math.max( 0, age-1 );
                 if( age > 0 ){ ModItems.faery.setAge( inputStack.getStackInSlot(0), age ); } else{
@@ -77,6 +83,7 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
         if( marrytime <= 0 && canMarry() ){
             if( marryflag && !worldObj.isRemote ){
                 ItemStack couple = inputStack.getStackInSlot(1).copy();
+                couple.stackSize = 1;
                 couple = ModItems.faery.setGender( couple, ItemFaery.EnumGender.COUPLE.toString() );
                 couple = ModItems.faery.setCoupleTraits( couple, inputStack.getStackInSlot(2) );
                 inputStack.insertItem( 0, couple, false );

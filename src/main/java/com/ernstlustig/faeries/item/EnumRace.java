@@ -4,27 +4,35 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public enum EnumRace {
 
-    ROCK( Item.getItemFromBlock( Blocks.COBBLESTONE ), EnumLifespan.NORMAL, null ),
-    EARTH( Item.getItemFromBlock( Blocks.DIRT ), EnumLifespan.SHORT, null ),
-    WATER( Items.POTIONITEM, EnumLifespan.NORMAL, null ),
-    FOREST( Item.getItemFromBlock( Blocks.SAPLING ), EnumLifespan.NORMAL, null ),
-    CLAY( Items.CLAY_BALL, EnumLifespan.LONG, new Mutation( EnumRace.WATER, EnumRace.EARTH, 20 ) ),
-    GRAVEL( Item.getItemFromBlock( Blocks.GRAVEL ), EnumLifespan.NORMAL, new Mutation( EnumRace.ROCK, EnumRace.EARTH, 20 ) );
+    ROCK( Arrays.asList( new Product( new ItemStack( Item.getItemFromBlock( Blocks.COBBLESTONE ) ), 80 ) ), EnumLifespan.NORMAL, null ),
+    EARTH( Arrays.asList( new Product( new ItemStack( Item.getItemFromBlock( Blocks.DIRT ) ), 80 ),
+                            new Product( new ItemStack( Item.getItemFromBlock( Blocks.GRASS ) ), 5 ) ), EnumLifespan.SHORT, null ),
+    WATER( Arrays.asList( new Product( new ItemStack( Items.POTIONITEM ), 80 ) ), EnumLifespan.NORMAL, null ),
+    FOREST( Arrays.asList( new Product( new ItemStack( Item.getItemFromBlock( Blocks.SAPLING ) ), 10 ),
+                            new Product( new ItemStack( Item.getItemFromBlock( Blocks.SAPLING ), 1, 1 ), 10 ),
+                            new Product( new ItemStack( Item.getItemFromBlock( Blocks.SAPLING ), 1, 2 ), 10 ),
+                            new Product( new ItemStack( Item.getItemFromBlock( Blocks.SAPLING ), 1, 3 ), 10 ),
+                            new Product( new ItemStack( Item.getItemFromBlock( Blocks.SAPLING ), 1, 4 ), 10 ),
+                            new Product( new ItemStack( Item.getItemFromBlock( Blocks.SAPLING ), 1, 5 ), 10 ) ), EnumLifespan.NORMAL, null ),
+    CLAY( Arrays.asList( new Product( new ItemStack( Items.CLAY_BALL ), 50 ) ), EnumLifespan.LONG, new Mutation( EnumRace.WATER, EnumRace.EARTH, 20 ) ),
+    GRAVEL( Arrays.asList( new Product( new ItemStack( Item.getItemFromBlock( Blocks.GRAVEL ) ), 70 ) ), EnumLifespan.NORMAL, new Mutation( EnumRace.ROCK, EnumRace.EARTH, 20 ) );
 
-    private final Item item;
+    private final List<Product> products;
     private final EnumLifespan lifespan;
     private final Mutation mutation;
     private List<Mutation> mutations = new ArrayList<Mutation>();
     private List<EnumRace> mutationraces = new ArrayList<EnumRace>();
 
-    EnumRace( Item item, EnumLifespan lifespan, Mutation mutation ){
-        this.item = item;
+    EnumRace( List<Product> products, EnumLifespan lifespan, Mutation mutation ){
+        this.products = products;
         this.lifespan = lifespan;
         this.mutation = mutation;
         if( mutation != null ) {
@@ -35,8 +43,8 @@ public enum EnumRace {
         }
     }
 
-    public Item getItem(){
-        return item;
+    public List<Product> getProducts(){
+        return products;
     }
 
     public EnumLifespan getLifespan() { return lifespan; }
