@@ -17,6 +17,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class ItemBrailer extends ItemFaeries {
@@ -36,16 +38,19 @@ public class ItemBrailer extends ItemFaeries {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer playerIn, EnumHand hand) {
-        int percentage = 20;
+        int percentage = 10;
 
         if( !world.isRemote ){
             int chance = new Random().nextInt(100);
-            int racenr = new Random().nextInt( EnumRace.values().length );
-            ItemStack faery = ModItems.faery.setRace( new ItemStack( ModItems.faery ), EnumRace.values()[racenr].name() );
+            List<EnumRace> catchable = new ArrayList<EnumRace>();
+            for( EnumRace race : EnumRace.values() ){
+                if( race.isCatchable() ){ catchable.add( race ); }
+            }
+            int racenr = new Random().nextInt( catchable.size() );
+            ItemStack faery = ModItems.faery.setRace( new ItemStack( ModItems.faery ), catchable.get( racenr ).name() );
             int gendernr = new Random().nextInt(2);
             faery = ModItems.faery.setGender( faery, ItemFaery.EnumGender.values()[gendernr].name() );
             if( chance<=percentage ){ world.spawnEntityInWorld( new EntityItem( world, playerIn.posX, playerIn.posY, playerIn.posZ, faery ) ); }
-            //playerIn.addChatComponentMessage( new TextComponentString( Integer.toString( chance ) ) );
         }
         return new ActionResult<>(EnumActionResult.SUCCESS, stack);
     }

@@ -1,13 +1,13 @@
 package com.ernstlustig.faeries.item;
 
 public enum EnumLifespan {
-    SHORTEST( 20 ),
-    SHORTER( 30 ),
-    SHORT( 40 ),
-    NORMAL( 50 ),
-    LONG( 60 ),
-    LONGER( 70 ),
-    LONGEST( 80 );
+    SHORTEST( 2 ),
+    SHORTER( 3 ),
+    SHORT( 4 ),
+    NORMAL( 5 ),
+    LONG( 6 ),
+    LONGER( 7 ),
+    LONGEST( 8 );
 
     private final int maxage;
 
