@@ -31,9 +31,9 @@ public class BlockFaeryHouse extends BlockFaeries implements ITileEntityProvider
 
     public BlockFaeryHouse(){
         super( Material.WOOD );
-        setHardness(2.5F);
-        setRegistryName("faeryHouse");
-        this.setUnlocalizedName("faeryHouse");
+        setHardness( 2.5F );
+        setRegistryName( "faeryHouse" );
+        this.setUnlocalizedName( "faeryHouse" );
     }
 
     @SideOnly(Side.CLIENT)

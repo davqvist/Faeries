@@ -17,12 +17,14 @@ public class ModItems {
 
     public static final ItemBrailer brailer = new ItemBrailer();
     public static final ItemFaery faery = new ItemFaery();
+    public static final ItemMashedFood mashedfood = new ItemMashedFood();
     public static final ItemWaterDrop waterdrop = new ItemWaterDrop();
     public static final ItemFaeryDust faerydust = new ItemFaeryDust();
 
     public static void registerItems(){
         GameRegistry.register( brailer );
         GameRegistry.register( faery );
+        GameRegistry.register( mashedfood );
         GameRegistry.register( waterdrop );
         GameRegistry.register( faerydust );
     }
@@ -40,6 +42,7 @@ public class ModItems {
         }
         ModelLoader.registerItemVariants( faery, models.toArray( new ModelResourceLocation[models.size()] ) );
         ModelLoader.setCustomMeshDefinition( faery, new FaeriesMeshDefinition() );
+        ModelLoader.setCustomModelResourceLocation( mashedfood, 0, new ModelResourceLocation( mashedfood.getUnlocalizedName().substring(5), "inventory" ) );
         ModelLoader.setCustomModelResourceLocation( waterdrop, 0, new ModelResourceLocation( waterdrop.getUnlocalizedName().substring(5), "inventory" ) );
         ModelLoader.setCustomModelResourceLocation( faerydust, 0, new ModelResourceLocation( faerydust.getUnlocalizedName().substring(5), "inventory" ) );
     }

@@ -1,7 +1,9 @@
 itemGroup.faeries=Faeries
 item.faeries:brailer.name=Brailer
 item.faeries:faery.name=Faery
+item.faeries:mashedfood.name=Mashed Food
 item.faeries:waterdrop.name=Water Drop
 item.faeries:faerydust.name=Faery Dust
 tile.faeries:faeryHouse.name=Faery House
+tile.faeries:mill.name=Mill
 generator.faeries-skyblock=Faeries Skyblock

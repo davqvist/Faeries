@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "faeries:mill", "y": 180 },
+    "facing=south": { "model": "faeries:mill" },
+    "facing=west":  { "model": "faeries:mill", "y": 90 },
+    "facing=east":  { "model": "faeries:mill", "y": 270 }
+  }
+}

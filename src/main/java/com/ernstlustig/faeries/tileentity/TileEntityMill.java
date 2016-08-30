@@ -1,73 +1,54 @@
 package com.ernstlustig.faeries.tileentity;
 
 import com.ernstlustig.faeries.init.ModItems;
-import com.ernstlustig.faeries.item.EnumRace;
-import com.ernstlustig.faeries.item.ItemFaery;
-import com.ernstlustig.faeries.item.Product;
-import com.ernstlustig.faeries.utility.LogHelper;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
-import sun.rmi.runtime.Log;
 
-import java.util.Random;
+public class TileEntityMill extends TileEntity implements ITickable {
 
-public class TileEntityFaeryHouse extends TileEntity implements ITickable {
-
-    public static final int INPUT_SIZE = 4;
-    public static final int OUTPUT_SIZE = 15;
+    public static final int INPUT_SIZE = 1;
+    public static final int OUTPUT_SIZE = 9;
     private int time;
-    private int marrytime;
     private boolean flag;
-    private boolean marryflag;
     public static final int MAX_TIME = 400;
-    public static final int MAX_MARRYTIME = 100;
 
     private ItemStackHandler inputStack = new ItemStackHandler( INPUT_SIZE ) {
         @Override
         protected void onContentsChanged( int slot ){
-            TileEntityFaeryHouse.this.markDirty();
+            TileEntityMill.this.markDirty();
         }
     };
     private ItemStackHandler outputStack = new ItemStackHandler( OUTPUT_SIZE ) {
         @Override
         protected void onContentsChanged( int slot ){
-            TileEntityFaeryHouse.this.markDirty();
+            TileEntityMill.this.markDirty();
         }
     };
-
     @Override
     public void update() {
-        if( !hasCouple() ){
+        if( !hasFood() ){
             time = 0;
             flag = false;
         }
-        if( time <= 0 && hasCouple() ){
+        if( time <= 0 && hasFood() ) {
             if( flag && !worldObj.isRemote ){
-                for( Product product : EnumRace.valueOf( ItemFaery.getRace( inputStack.getStackInSlot(0) ) ).getProducts() ){
-                    int percentage = new Random().nextInt(100);
-                    int foodmodifier = ( inputStack.getStackInSlot(3) != null ) ? 2 : 1;
-                    if( percentage < 0.5f * product.getChance() * foodmodifier ) {
-                        setItemStackInOutputSlot( product.getItemStack() );
-                    }
-                }
-                if( inputStack.getStackInSlot(3) != null ){ inputStack.extractItem( 3, 1, false ); }
-                int age = ItemFaery.getAge( inputStack.getStackInSlot(0) );
-                age = Math.max( 0, age-1 );
-                if( age > 0 ){ ModItems.faery.setAge( inputStack.getStackInSlot(0), age ); } else{
-                    for( int i=1; i<=3; i++ ){
-                        ItemStack offspring = ModItems.faery.getOffspring( inputStack.getStackInSlot(0) );
-                        setItemStackInOutputSlot( offspring );
-                    }
+                if( inputStack.getStackInSlot(0).getItem() instanceof ItemFood ){
+                    int healamount = ((ItemFood) inputStack.getStackInSlot(0).getItem()).getHealAmount( inputStack.getStackInSlot(0) );
+                    setItemStackInOutputSlot( new ItemStack( ModItems.mashedfood, healamount ) );
                     inputStack.extractItem( 0, 1, false );
                 }
             }
@@ -75,25 +56,6 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
             flag = true;
         }
         time--;
-
-        if( !canMarry() ){
-            marrytime = 0;
-            marryflag = false;
-        }
-        if( marrytime <= 0 && canMarry() ){
-            if( marryflag && !worldObj.isRemote ){
-                ItemStack couple = inputStack.getStackInSlot(1).copy();
-                couple.stackSize = 1;
-                couple = ModItems.faery.setGender( couple, ItemFaery.EnumGender.COUPLE.toString() );
-                couple = ModItems.faery.setCoupleTraits( couple, inputStack.getStackInSlot(2) );
-                inputStack.insertItem( 0, couple, false );
-                inputStack.extractItem( 1, 1, false );
-                inputStack.extractItem( 2, 1, false );
-            }
-            marrytime = MAX_MARRYTIME;
-            marryflag = true;
-        }
-        marrytime--;
     }
 
     @Override
@@ -128,7 +90,7 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
     }
 
     @Override
-    public boolean hasCapability( Capability<?> capability, EnumFacing facing ){
+    public boolean hasCapability(Capability<?> capability, EnumFacing facing ){
         if( capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ){
             return true;
         }
@@ -147,20 +109,9 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
     public int getTime(){
         return time;
     }
-    public int getMarryTime(){
-        return marrytime;
-    }
 
-    public boolean hasCouple(){
+    public boolean hasFood(){
         return ( inputStack.getStackInSlot(0) != null );
-    }
-
-    public boolean canMarry(){
-        return ( inputStack.getStackInSlot(0) == null ) && ( inputStack.getStackInSlot(1) != null ) && ( inputStack.getStackInSlot(2) != null );
-    }
-
-    public ItemStack getCouple(){
-        return inputStack.getStackInSlot(0);
     }
 
     private void setItemStackInOutputSlot( ItemStack itemstack ){
@@ -177,4 +128,3 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
         }
     }
 }
-

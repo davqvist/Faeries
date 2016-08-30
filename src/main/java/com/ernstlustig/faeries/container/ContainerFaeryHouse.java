@@ -70,11 +70,18 @@ public class ContainerFaeryHouse extends Container {
             }
         });
 
+        addSlotToContainer( new SlotItemHandler( itemHandler, 3, 51, 43 ){
+            @Override
+            public boolean isItemValid( ItemStack stack ){
+                return stack.getItem() == ModItems.mashedfood;
+            }
+        });
+
         for( int row = 0; row < 3; row++ ){
             for( int col = 0; col < 5; col++ ){
                 int x = 82 + col * 18;
                 int y = row * 18 + 6;
-                addSlotToContainer( new SlotItemHandler( itemHandler, 3 + col + row * 5, x, y ){
+                addSlotToContainer( new SlotItemHandler( itemHandler, 4 + col + row * 5, x, y ){
                     @Override
                     public boolean isItemValid( ItemStack stack ){
                         return false;
@@ -86,7 +93,7 @@ public class ContainerFaeryHouse extends Container {
 
     @Nullable
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+    public ItemStack transferStackInSlot( EntityPlayer playerIn, int index ){
         ItemStack itemstack = null;
         Slot slot = this.inventorySlots.get( index );
 
@@ -99,7 +106,6 @@ public class ContainerFaeryHouse extends Container {
                     return null;
                 }
             } else if( !this.mergeItemStack( itemstack1, 0, TileEntityFaeryHouse.INPUT_SIZE, false ) ){
-                //TODO: Add ContainerFaeries which checks for SlotMaxStackSize as well
                 return null;
             }
 
