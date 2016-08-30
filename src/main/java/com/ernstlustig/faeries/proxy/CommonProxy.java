@@ -3,6 +3,7 @@ package com.ernstlustig.faeries.proxy;
 import com.ernstlustig.faeries.Faeries;
 import com.ernstlustig.faeries.init.ModBlocks;
 import com.ernstlustig.faeries.init.ModItems;
+import com.ernstlustig.faeries.init.Recipes;
 import com.ernstlustig.faeries.world.SkyblockWorldEvents;
 import com.ernstlustig.faeries.world.WorldTypeSkyblock;
 import net.minecraft.client.Minecraft;
@@ -28,6 +29,7 @@ public abstract class CommonProxy {
     }
 
     public void init( FMLInitializationEvent e ) {
+        Recipes.init();
         MinecraftForge.EVENT_BUS.register( new SkyblockWorldEvents() );
     }
 
