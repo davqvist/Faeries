@@ -19,14 +19,24 @@ public class ModItems {
     public static final ItemFaery faery = new ItemFaery();
     public static final ItemMashedFood mashedfood = new ItemMashedFood();
     public static final ItemWaterDrop waterdrop = new ItemWaterDrop();
+    public static final ItemMilkDrop milkdrop = new ItemMilkDrop();
     public static final ItemFaeryDust faerydust = new ItemFaeryDust();
+    public static final ItemDreamDust dreamdust = new ItemDreamDust();
+    public static final ShardHeadZombie shardheadzombie = new ShardHeadZombie();
+    public static final ShardSkullSkeleton shardskullskeleton = new ShardSkullSkeleton();
+    public static final ShardHeadCreeper shardheadcreeper = new ShardHeadCreeper();
 
     public static void registerItems(){
         GameRegistry.register( brailer );
         GameRegistry.register( faery );
         GameRegistry.register( mashedfood );
         GameRegistry.register( waterdrop );
+        GameRegistry.register( milkdrop );
         GameRegistry.register( faerydust );
+        GameRegistry.register( dreamdust );
+        GameRegistry.register( shardheadzombie );
+        GameRegistry.register( shardskullskeleton );
+        GameRegistry.register( shardheadcreeper );
     }
 
     @SideOnly(Side.CLIENT)
@@ -44,7 +54,12 @@ public class ModItems {
         ModelLoader.setCustomMeshDefinition( faery, new FaeriesMeshDefinition() );
         ModelLoader.setCustomModelResourceLocation( mashedfood, 0, new ModelResourceLocation( mashedfood.getUnlocalizedName().substring(5), "inventory" ) );
         ModelLoader.setCustomModelResourceLocation( waterdrop, 0, new ModelResourceLocation( waterdrop.getUnlocalizedName().substring(5), "inventory" ) );
+        ModelLoader.setCustomModelResourceLocation( milkdrop, 0, new ModelResourceLocation( milkdrop.getUnlocalizedName().substring(5), "inventory" ) );
         ModelLoader.setCustomModelResourceLocation( faerydust, 0, new ModelResourceLocation( faerydust.getUnlocalizedName().substring(5), "inventory" ) );
+        ModelLoader.setCustomModelResourceLocation( dreamdust, 0, new ModelResourceLocation( dreamdust.getUnlocalizedName().substring(5), "inventory" ) );
+        ModelLoader.setCustomModelResourceLocation( shardheadzombie, 0, new ModelResourceLocation( shardheadzombie.getUnlocalizedName().substring(5), "inventory" ) );
+        ModelLoader.setCustomModelResourceLocation( shardskullskeleton, 0, new ModelResourceLocation( shardskullskeleton.getUnlocalizedName().substring(5), "inventory" ) );
+        ModelLoader.setCustomModelResourceLocation( shardheadcreeper, 0, new ModelResourceLocation( shardheadcreeper.getUnlocalizedName().substring(5), "inventory" ) );
     }
 
 }

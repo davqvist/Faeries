@@ -1,0 +1,7 @@
+{
+  "parent": "faeries:item/faery",
+  "textures": {
+    "layer0": "faeries:items/faery_squid",
+    "layer1": "faeries:items/faery_couple"
+  }
+}

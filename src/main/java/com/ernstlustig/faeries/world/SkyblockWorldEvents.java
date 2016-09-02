@@ -51,12 +51,37 @@ public class SkyblockWorldEvents {
     }
 
     public static void createSkyblock( World world, int x, int y, int z ){
+        //PLATFORM
         for( int i = 0; i < 5; i++ ) {
-            for (int j = 0; j < 3; j++) {
+            for( int j = 0; j < 3; j++ ){
                 world.setBlockState( new BlockPos( x - 2 + i, y - 1, z - 1 + j ), Blocks.GRASS.getDefaultState(), 3 );
-                world.setBlockState( new BlockPos( x, y - 2, z ), Blocks.BEDROCK.getDefaultState(), 3 );
+                world.setBlockState( new BlockPos( x - 2 + i, y - 2, z - 1 + j ), Blocks.BEDROCK.getDefaultState(), 3 );
             }
             world.setBlockState( new BlockPos( x - 2 + i, y, z + 1 ), ModBlocks.faeryHouse.getDefaultState(), 3 );
         }
+        //NETHER PORTAL
+        world.setBlockState( new BlockPos( x, y, z + 64 ), Blocks.OBSIDIAN.getDefaultState(), 3 );
+        world.setBlockState( new BlockPos( x + 1, y, z + 64 ), Blocks.OBSIDIAN.getDefaultState(), 3 );
+        world.setBlockState( new BlockPos( x - 1, y + 1, z + 64 ), Blocks.OBSIDIAN.getDefaultState(), 3 );
+        world.setBlockState( new BlockPos( x - 1, y + 2, z + 64 ), Blocks.OBSIDIAN.getDefaultState(), 3 );
+        world.setBlockState( new BlockPos( x - 1, y + 3, z + 64 ), Blocks.OBSIDIAN.getDefaultState(), 3 );
+        world.setBlockState( new BlockPos( x + 2, y + 1, z + 64 ), Blocks.OBSIDIAN.getDefaultState(), 3 );
+        world.setBlockState( new BlockPos( x + 2, y + 2, z + 64 ), Blocks.OBSIDIAN.getDefaultState(), 3 );
+        world.setBlockState( new BlockPos( x + 2, y + 3, z + 64 ), Blocks.OBSIDIAN.getDefaultState(), 3 );
+        world.setBlockState( new BlockPos( x, y + 4, z + 64 ), Blocks.OBSIDIAN.getDefaultState(), 3 );
+        world.setBlockState( new BlockPos( x + 1, y + 4, z + 64 ), Blocks.OBSIDIAN.getDefaultState(), 3 );
+        //END PORTAL
+        world.setBlockState( new BlockPos( x - 1, y, z + 128 ), Blocks.END_PORTAL_FRAME.getDefaultState(), 3 );
+        world.setBlockState( new BlockPos( x, y, z + 128 ), Blocks.END_PORTAL_FRAME.getDefaultState(), 3 );
+        world.setBlockState( new BlockPos( x + 1, y, z + 128 ), Blocks.END_PORTAL_FRAME.getDefaultState(), 3 );
+        world.setBlockState( new BlockPos( x - 2, y, z + 129 ), Blocks.END_PORTAL_FRAME.getDefaultState(), 3 );
+        world.setBlockState( new BlockPos( x - 2, y, z + 130 ), Blocks.END_PORTAL_FRAME.getDefaultState(), 3 );
+        world.setBlockState( new BlockPos( x - 2, y, z + 131 ), Blocks.END_PORTAL_FRAME.getDefaultState(), 3 );
+        world.setBlockState( new BlockPos( x + 2, y, z + 129 ), Blocks.END_PORTAL_FRAME.getDefaultState(), 3 );
+        world.setBlockState( new BlockPos( x + 2, y, z + 130 ), Blocks.END_PORTAL_FRAME.getDefaultState(), 3 );
+        world.setBlockState( new BlockPos( x + 2, y, z + 131 ), Blocks.END_PORTAL_FRAME.getDefaultState(), 3 );
+        world.setBlockState( new BlockPos( x - 1, y, z + 132 ), Blocks.END_PORTAL_FRAME.getDefaultState(), 3 );
+        world.setBlockState( new BlockPos( x, y, z + 132 ), Blocks.END_PORTAL_FRAME.getDefaultState(), 3 );
+        world.setBlockState( new BlockPos( x + 1, y, z + 132 ), Blocks.END_PORTAL_FRAME.getDefaultState(), 3 );
     }
 }

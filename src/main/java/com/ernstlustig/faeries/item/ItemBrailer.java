@@ -54,4 +54,11 @@ public class ItemBrailer extends ItemFaeries {
         }
         return new ActionResult<>(EnumActionResult.SUCCESS, stack);
     }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation( ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced ){
+        super.addInformation( stack, playerIn, tooltip, advanced );
+        tooltip.add( "Catches Faeries" );
+    }
 }
