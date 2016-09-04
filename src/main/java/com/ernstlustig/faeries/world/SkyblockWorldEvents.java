@@ -2,6 +2,7 @@ package com.ernstlustig.faeries.world;
 
 import com.ernstlustig.faeries.init.ModBlocks;
 import com.ernstlustig.faeries.init.ModItems;
+import com.ernstlustig.faeries.utility.LogHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -10,6 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.terraingen.WorldTypeEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class SkyblockWorldEvents {
@@ -57,7 +59,7 @@ public class SkyblockWorldEvents {
                 world.setBlockState( new BlockPos( x - 2 + i, y - 1, z - 1 + j ), Blocks.GRASS.getDefaultState(), 3 );
                 world.setBlockState( new BlockPos( x - 2 + i, y - 2, z - 1 + j ), Blocks.BEDROCK.getDefaultState(), 3 );
             }
-            world.setBlockState( new BlockPos( x - 2 + i, y, z + 1 ), ModBlocks.faeryHouse.getDefaultState(), 3 );
+            world.setBlockState( new BlockPos( x - 2 + i, y, z + 1 ), ModBlocks.faeryhouse.getDefaultState(), 3 );
         }
         //NETHER PORTAL
         world.setBlockState( new BlockPos( x, y, z + 64 ), Blocks.OBSIDIAN.getDefaultState(), 3 );
@@ -71,17 +73,17 @@ public class SkyblockWorldEvents {
         world.setBlockState( new BlockPos( x, y + 4, z + 64 ), Blocks.OBSIDIAN.getDefaultState(), 3 );
         world.setBlockState( new BlockPos( x + 1, y + 4, z + 64 ), Blocks.OBSIDIAN.getDefaultState(), 3 );
         //END PORTAL
-        world.setBlockState( new BlockPos( x - 1, y, z + 128 ), Blocks.END_PORTAL_FRAME.getDefaultState(), 3 );
-        world.setBlockState( new BlockPos( x, y, z + 128 ), Blocks.END_PORTAL_FRAME.getDefaultState(), 3 );
-        world.setBlockState( new BlockPos( x + 1, y, z + 128 ), Blocks.END_PORTAL_FRAME.getDefaultState(), 3 );
-        world.setBlockState( new BlockPos( x - 2, y, z + 129 ), Blocks.END_PORTAL_FRAME.getDefaultState(), 3 );
-        world.setBlockState( new BlockPos( x - 2, y, z + 130 ), Blocks.END_PORTAL_FRAME.getDefaultState(), 3 );
-        world.setBlockState( new BlockPos( x - 2, y, z + 131 ), Blocks.END_PORTAL_FRAME.getDefaultState(), 3 );
-        world.setBlockState( new BlockPos( x + 2, y, z + 129 ), Blocks.END_PORTAL_FRAME.getDefaultState(), 3 );
-        world.setBlockState( new BlockPos( x + 2, y, z + 130 ), Blocks.END_PORTAL_FRAME.getDefaultState(), 3 );
-        world.setBlockState( new BlockPos( x + 2, y, z + 131 ), Blocks.END_PORTAL_FRAME.getDefaultState(), 3 );
-        world.setBlockState( new BlockPos( x - 1, y, z + 132 ), Blocks.END_PORTAL_FRAME.getDefaultState(), 3 );
-        world.setBlockState( new BlockPos( x, y, z + 132 ), Blocks.END_PORTAL_FRAME.getDefaultState(), 3 );
-        world.setBlockState( new BlockPos( x + 1, y, z + 132 ), Blocks.END_PORTAL_FRAME.getDefaultState(), 3 );
+        world.setBlockState( new BlockPos( x - 1, y, z + 128 ), Blocks.END_PORTAL_FRAME.getStateFromMeta( 0 ), 3 );
+        world.setBlockState( new BlockPos( x, y, z + 128 ), Blocks.END_PORTAL_FRAME.getStateFromMeta( 0 ), 3 );
+        world.setBlockState( new BlockPos( x + 1, y, z + 128 ), Blocks.END_PORTAL_FRAME.getStateFromMeta( 0 ), 3 );
+        world.setBlockState( new BlockPos( x - 2, y, z + 129 ), Blocks.END_PORTAL_FRAME.getStateFromMeta( 3 ), 3 );
+        world.setBlockState( new BlockPos( x - 2, y, z + 130 ), Blocks.END_PORTAL_FRAME.getStateFromMeta( 3 ), 3 );
+        world.setBlockState( new BlockPos( x - 2, y, z + 131 ), Blocks.END_PORTAL_FRAME.getStateFromMeta( 3 ), 3 );
+        world.setBlockState( new BlockPos( x + 2, y, z + 129 ), Blocks.END_PORTAL_FRAME.getStateFromMeta( 1 ), 3 );
+        world.setBlockState( new BlockPos( x + 2, y, z + 130 ), Blocks.END_PORTAL_FRAME.getStateFromMeta( 1 ), 3 );
+        world.setBlockState( new BlockPos( x + 2, y, z + 131 ), Blocks.END_PORTAL_FRAME.getStateFromMeta( 1 ), 3 );
+        world.setBlockState( new BlockPos( x - 1, y, z + 132 ), Blocks.END_PORTAL_FRAME.getStateFromMeta( 2 ), 3 );
+        world.setBlockState( new BlockPos( x, y, z + 132 ), Blocks.END_PORTAL_FRAME.getStateFromMeta( 2 ), 3 );
+        world.setBlockState( new BlockPos( x + 1, y, z + 132 ), Blocks.END_PORTAL_FRAME.getStateFromMeta( 2 ), 3 );
     }
 }

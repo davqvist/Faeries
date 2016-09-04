@@ -4,6 +4,8 @@ import com.ernstlustig.faeries.Faeries;
 import com.ernstlustig.faeries.init.ModBlocks;
 import com.ernstlustig.faeries.init.ModItems;
 import com.ernstlustig.faeries.init.Recipes;
+import com.ernstlustig.faeries.utility.LogHelper;
+import com.ernstlustig.faeries.world.SkyblockTerrainEvents;
 import com.ernstlustig.faeries.world.SkyblockWorldEvents;
 import com.ernstlustig.faeries.world.WorldTypeSkyblock;
 import net.minecraft.client.Minecraft;
@@ -12,6 +14,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 
 public abstract class CommonProxy {
 
@@ -31,9 +34,9 @@ public abstract class CommonProxy {
     public void init( FMLInitializationEvent e ) {
         Recipes.init();
         MinecraftForge.EVENT_BUS.register( new SkyblockWorldEvents() );
+        MinecraftForge.TERRAIN_GEN_BUS.register( new SkyblockTerrainEvents() );
     }
 
     public void postInit( FMLPostInitializationEvent e ) {
-
     }
 }

@@ -1,7 +1,7 @@
 package com.ernstlustig.faeries.init;
 
-import com.ernstlustig.faeries.block.BlockFaeries;
 import com.ernstlustig.faeries.block.BlockFaeryHouse;
+import com.ernstlustig.faeries.block.BlockFaeryVilla;
 import com.ernstlustig.faeries.block.BlockMill;
 import com.ernstlustig.faeries.tileentity.TileEntityFaeryHouse;
 import com.ernstlustig.faeries.reference.Reference;
@@ -16,13 +16,16 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @GameRegistry.ObjectHolder( Reference.MOD_ID )
 public class ModBlocks {
-    public static final BlockFaeryHouse faeryHouse = new BlockFaeryHouse();
+    public static final BlockFaeryHouse faeryhouse = new BlockFaeryHouse();
+    public static final BlockFaeryVilla faeryvilla = new BlockFaeryVilla();
     public static final BlockMill mill = new BlockMill();
 
     public static void registerBlocks(){
-        GameRegistry.register( faeryHouse );
-        GameRegistry.register( new ItemBlock( faeryHouse ), faeryHouse.getRegistryName() );
+        GameRegistry.register( faeryhouse );
+        GameRegistry.register( new ItemBlock( faeryhouse ), faeryhouse.getRegistryName() );
         GameRegistry.registerTileEntity( TileEntityFaeryHouse.class, Reference.MOD_ID + "_tileentityfaeryhouse" );
+        GameRegistry.register( faeryvilla );
+        GameRegistry.register( new ItemBlock( faeryvilla ), faeryvilla.getRegistryName() );
         GameRegistry.register( mill );
         GameRegistry.register( new ItemBlock( mill ), mill.getRegistryName() );
         GameRegistry.registerTileEntity( TileEntityMill.class, Reference.MOD_ID + "_tileentitymill" );
@@ -30,9 +33,9 @@ public class ModBlocks {
 
     @SideOnly(Side.CLIENT)
     public static void loadTextures(){
-        ModelLoader.setCustomModelResourceLocation( Item.getItemFromBlock( faeryHouse ), 0, new ModelResourceLocation( faeryHouse.getUnlocalizedName().substring(5), "inventory"));
+        ModelLoader.setCustomModelResourceLocation( Item.getItemFromBlock( faeryhouse ), 0, new ModelResourceLocation( faeryhouse.getUnlocalizedName().substring(5), "inventory"));
+        ModelLoader.setCustomModelResourceLocation( Item.getItemFromBlock( faeryvilla ), 0, new ModelResourceLocation( faeryvilla.getUnlocalizedName().substring(5), "inventory"));
         ModelLoader.setCustomModelResourceLocation( Item.getItemFromBlock( mill ), 0, new ModelResourceLocation( mill.getUnlocalizedName().substring(5), "inventory"));
         //Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register( blockItem, 0, new ModelResourceLocation( faeryHouse.getUnlocalizedName().substring(5), "inventory" ) );
-        //LogHelper.info( "INFO: "+faeryHouse.getUnlocalizedName().substring(5) );
     }
 }

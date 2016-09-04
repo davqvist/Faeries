@@ -2,20 +2,18 @@ package com.ernstlustig.faeries.item;
 
 import com.ernstlustig.faeries.init.ModItems;
 import com.ernstlustig.faeries.utility.NBTHelper;
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 
 public class ItemFaery extends ItemFaeries {
 
@@ -171,7 +169,7 @@ public class ItemFaery extends ItemFaeries {
             List<Integer> lifespans = Arrays.asList( ModItems.faery.getLifespan( itemstack ), ModItems.faery.getPassiveLifespan( itemstack ), ModItems.faery.getCoupleLifespan( itemstack ), ModItems.faery.getCouplePassiveLifespan( itemstack ) );
             int[][] mapping = new int[][]{ { 0, 2 }, { 0, 3 }, { 1, 2 }, { 1, 3 } };
             //Mutationcheck 1
-            int coin = new Random().nextInt(4);
+            int coin = Minecraft.getMinecraft().theWorld.rand.nextInt(4);
             List<Mutation> possiblemutations = EnumRace.valueOf( races.get( mapping[coin][0] ) ).getMutations();
             Mutation resultingmutation = null;
             int found = 0;
@@ -182,20 +180,20 @@ public class ItemFaery extends ItemFaeries {
             }
             EnumRace race = null;
             if( resultingmutation != null ){
-                int percentage = new Random().nextInt(100);
+                int percentage = Minecraft.getMinecraft().theWorld.rand.nextInt(100);
                 if( percentage < resultingmutation.getChance() ){
                     race = EnumRace.valueOf( races.get( mapping[coin][0] ) ).getMutationRaces().get( found );
                 }
             }
             if( race == null ){
-                int coin2 = new Random().nextInt(2);
+                int coin2 = Minecraft.getMinecraft().theWorld.rand.nextInt(2);
                 race = EnumRace.valueOf( races.get( mapping[coin][coin2] ) );
-                coin2 = new Random().nextInt(2);
+                coin2 = Minecraft.getMinecraft().theWorld.rand.nextInt(2);
                 offspring = ModItems.faery.setLifespan( offspring, lifespans.get( mapping[coin][coin2] ) );
             }
             offspring = ModItems.faery.setRace( offspring, race.toString() );
             //Mutationcheck 2
-            coin = new Random().nextInt(4);
+            coin = Minecraft.getMinecraft().theWorld.rand.nextInt(4);
             resultingmutation = null;
             found = 0;
             for( Mutation m : possiblemutations ){
@@ -205,19 +203,19 @@ public class ItemFaery extends ItemFaeries {
             }
             race = null;
             if( resultingmutation != null ){
-                int percentage = new Random().nextInt(100);
+                int percentage = Minecraft.getMinecraft().theWorld.rand.nextInt(100);
                 if( percentage < resultingmutation.getChance() ){
                     race = EnumRace.valueOf( races.get( mapping[coin][0] ) ).getMutationRaces().get( found );
                 }
             }
             if( race == null ){
-                int coin2 = new Random().nextInt(2);
+                int coin2 = Minecraft.getMinecraft().theWorld.rand.nextInt(2);
                 race = EnumRace.valueOf( races.get( mapping[coin][coin2] ) );
-                coin2 = new Random().nextInt(2);
+                coin2 = Minecraft.getMinecraft().theWorld.rand.nextInt(2);
                 offspring = ModItems.faery.setPassiveLifespan( offspring, lifespans.get( mapping[coin][coin2] ) );
             }
             offspring = ModItems.faery.setPassiveRace( offspring, race.toString() );
-            coin = new Random().nextInt(2);
+            coin = Minecraft.getMinecraft().theWorld.rand.nextInt(2);
             offspring = ModItems.faery.setGender( offspring, ItemFaery.EnumGender.values()[coin].name() );
             return offspring;
         }

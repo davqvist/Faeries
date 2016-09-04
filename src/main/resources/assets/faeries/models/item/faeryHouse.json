@@ -1,5 +1,5 @@
 {
-  "parent": "faeries:block/faeryHouse",
+  "parent": "faeries:block/faeryhouse",
   "display": {
     "thirdperson": {
       "rotation": [ 10, -45, 170 ],
