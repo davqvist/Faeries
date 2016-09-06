@@ -20,7 +20,7 @@ public enum EnumRace {
                         new Product( new ItemStack( Item.getItemFromBlock( Blocks.STONE ), 1, 5 ), 10 ) ), null, EnumLifespan.NORMAL ),
     EARTH( Arrays.asList( new Product( new ItemStack( Item.getItemFromBlock( Blocks.DIRT ) ), 80 ),
                             new Product( new ItemStack( Item.getItemFromBlock( Blocks.GRASS ) ), 5 ),
-                            new Product( new ItemStack( Item.getItemFromBlock( Blocks.DIRT ) ), 10 ) ), null, EnumLifespan.SHORT ),
+                            new Product( new ItemStack( Item.getItemFromBlock( Blocks.DIRT ), 1, 2 ), 10 ) ), null, EnumLifespan.SHORT ),
     WATER( Arrays.asList( new Product( new ItemStack( ModItems.dropwater ), 80 ),
                         new Product( new ItemStack( Item.getItemFromBlock( Blocks.WATERLILY ) ), 10 ) ), null, EnumLifespan.NORMAL ),
     FOREST( Arrays.asList( new Product( new ItemStack( Item.getItemFromBlock( Blocks.SAPLING ) ), 10 ),
@@ -29,7 +29,7 @@ public enum EnumRace {
                             new Product( new ItemStack( Item.getItemFromBlock( Blocks.SAPLING ), 1, 3 ), 10 ),
                             new Product( new ItemStack( Item.getItemFromBlock( Blocks.SAPLING ), 1, 4 ), 10 ),
                             new Product( new ItemStack( Item.getItemFromBlock( Blocks.SAPLING ), 1, 5 ), 10 ),
-                            new Product( new ItemStack( Items.APPLE, 1, 5 ), 5 ) ), null, EnumLifespan.NORMAL ),
+                            new Product( new ItemStack( Items.APPLE ), 5 ) ), null, EnumLifespan.NORMAL ),
     DESERT( Arrays.asList( new Product( new ItemStack( Item.getItemFromBlock( Blocks.SAND ) ), 70 ),
                             new Product( new ItemStack( Item.getItemFromBlock( Blocks.SAND ), 1, 1 ), 10 ),
                             new Product( new ItemStack( Item.getItemFromBlock( Blocks.CACTUS ) ), 25 ),
@@ -62,7 +62,7 @@ public enum EnumRace {
                         new Product( new ItemStack( Items.POISONOUS_POTATO ), 5 ) ), new Mutation( EnumRace.CROP, EnumRace.BEET, 15 ), EnumLifespan.SHORTER ),
     JUNGLE( Arrays.asList( new Product( new ItemStack( Items.DYE, 1, 3 ), 20 ),
                         new Product( new ItemStack( Item.getItemFromBlock( Blocks.VINE ) ), 8 ) ), new Mutation( EnumRace.EARTH, EnumRace.FOREST, 18 ), EnumLifespan.SHORT ),
-    SUGAR( Arrays.asList( new Product( new ItemStack( Item.getItemFromBlock( Blocks.REEDS ) ), 30 ) ), new Mutation( EnumRace.CROP, EnumRace.DESERT, 15 ), EnumLifespan.SHORT ),
+    SUGAR( Arrays.asList( new Product( new ItemStack( Items.REEDS ), 30 ) ), new Mutation( EnumRace.CROP, EnumRace.DESERT, 15 ), EnumLifespan.SHORT ),
     SPONGE( Arrays.asList( new Product( new ItemStack( Item.getItemFromBlock( Blocks.SPONGE ) ), 10 ) ), new Mutation( EnumRace.WATER, EnumRace.DESERT, 15 ), EnumLifespan.LONG ),
     FISH( Arrays.asList( new Product( new ItemStack( Items.FISH ), 8 ),
                         new Product( new ItemStack( Items.FISH, 1, 1 ), 8 ),
@@ -162,6 +162,10 @@ public enum EnumRace {
 
     public void addToMutationRaces( EnumRace race ){
         mutationraces.add( race );
+    }
+
+    public Mutation getMutation(){
+        return mutation;
     }
 
     public List<Mutation> getMutations(){
