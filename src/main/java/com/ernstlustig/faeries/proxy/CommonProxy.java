@@ -23,9 +23,6 @@ public abstract class CommonProxy {
         //FMLCommonHandler.instance().bus().register( new ConfigurationHandler() );
         ModItems.registerItems();
         ModBlocks.registerBlocks();
-
-        ModItems.loadTextures();
-        ModBlocks.loadTextures();
         NetworkRegistry.INSTANCE.registerGuiHandler( Faeries.instance, new GuiProxy() );
 
         new WorldTypeSkyblock();

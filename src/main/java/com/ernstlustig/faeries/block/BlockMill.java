@@ -85,6 +85,11 @@ public class BlockMill extends BlockFaeries implements ITileEntityProvider {
     }
 
     @Override
+    public IBlockState getStateFromMeta( int meta ){
+        return this.getDefaultState().withProperty( FACING, EnumFacing.getHorizontal( meta ) );
+    }
+
+    @Override
     public boolean onBlockActivated( World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ ){
         if( world.isRemote ){
             return true;
@@ -109,6 +114,6 @@ public class BlockMill extends BlockFaeries implements ITileEntityProvider {
             }
         }
 
-        super.breakBlock(worldIn, pos, state);
+        super.breakBlock( worldIn, pos, state );
     }
 }

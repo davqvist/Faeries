@@ -26,18 +26,9 @@ public class TileEntityMill extends TileEntity implements ITickable {
     private boolean flag;
     public static final int MAX_TIME = 400;
 
-    private ItemStackHandler inputStack = new ItemStackHandler( INPUT_SIZE ) {
-        @Override
-        protected void onContentsChanged( int slot ){
-            TileEntityMill.this.markDirty();
-        }
-    };
-    private ItemStackHandler outputStack = new ItemStackHandler( OUTPUT_SIZE ) {
-        @Override
-        protected void onContentsChanged( int slot ){
-            TileEntityMill.this.markDirty();
-        }
-    };
+    private MillStackHandler inputStack = new MillStackHandler( this, INPUT_SIZE );
+    private OutputStackHandler outputStack = new OutputStackHandler( this, OUTPUT_SIZE );
+
     @Override
     public void update() {
         if( !hasFood() ){
@@ -90,20 +81,20 @@ public class TileEntityMill extends TileEntity implements ITickable {
     }
 
     @Override
-    public boolean hasCapability(Capability<?> capability, EnumFacing facing ){
+    public boolean hasCapability( Capability<?> capability, EnumFacing facing ){
         if( capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ){
             return true;
         }
-        return super.hasCapability(capability, facing);
+        return super.hasCapability( capability, facing );
     }
 
     @Override
     public <T> T getCapability( Capability<T> capability, EnumFacing facing ){
         if( capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ){
             if( facing == null ){ return (T) new CombinedInvWrapper( inputStack, outputStack ); }
-            return (T) outputStack;
+            return (T) new CombinedInvWrapper( new AutoInputStackHandler( this, inputStack ), new AutoOutputStackHandler( this, outputStack ) );
         }
-        return super.getCapability(capability, facing);
+        return super.getCapability( capability, facing );
     }
 
     public int getTime(){
@@ -125,6 +116,32 @@ public class TileEntityMill extends TileEntity implements ITickable {
                 worldObj.spawnEntityInWorld( produceEntity );
                 temp = true;
             }
+        }
+    }
+
+    public class MillStackHandler extends InputStackHandler{
+
+        public MillStackHandler( TileEntity te, int size ){
+            super( te, size );
+        }
+
+        @Override
+        public ItemStack insertItem( int slot, ItemStack stack, boolean simulate ){
+            if( !( stack.getItem() instanceof ItemFood ) ){ return stack; }
+            return super.insertItem( slot, stack, simulate );
+        }
+    }
+
+    public class AutoInputStackHandler extends MillStackHandler{
+
+        public AutoInputStackHandler( TileEntity te, MillStackHandler stackhandler ){
+            super( te, stackhandler.getSlots() );
+            this.stacks = stackhandler.getStacks();
+        }
+
+        @Override
+        public ItemStack extractItem(int slot, int amount, boolean simulate ){
+            return null;
         }
     }
 }

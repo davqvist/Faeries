@@ -1,5 +1,6 @@
 package com.ernstlustig.faeries;
 
+import com.ernstlustig.faeries.network.PacketHandler;
 import com.ernstlustig.faeries.proxy.CommonProxy;
 import com.ernstlustig.faeries.reference.Reference;
 import net.minecraftforge.fml.common.Mod;
@@ -16,6 +17,8 @@ public class Faeries {
 
     @SidedProxy( clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS )
     public static CommonProxy proxy;
+
+    public static final PacketHandler packethandler = new PacketHandler();
 
     @Mod.EventHandler
     public void preInit( FMLPreInitializationEvent event ){

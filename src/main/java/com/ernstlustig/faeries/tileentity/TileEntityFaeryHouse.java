@@ -32,18 +32,11 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
     public static final int MAX_TIME = 400;
     public static final int MAX_MARRYTIME = 100;
 
-    private ItemStackHandler inputStack = new ItemStackHandler( INPUT_SIZE ) {
-        @Override
-        protected void onContentsChanged( int slot ){
-            TileEntityFaeryHouse.this.markDirty();
-        }
-    };
-    private ItemStackHandler outputStack = new ItemStackHandler( OUTPUT_SIZE ) {
-        @Override
-        protected void onContentsChanged( int slot ){
-            TileEntityFaeryHouse.this.markDirty();
-        }
-    };
+    private FaeryCoupleStackHandler coupleStack = new FaeryCoupleStackHandler( this, 1 );
+    private FaeryMaleStackHandler maleStack = new FaeryMaleStackHandler( this, 1 );
+    private FaeryFemaleStackHandler femaleStack = new FaeryFemaleStackHandler( this, 1 );
+    private FaeryFoodStackHandler foodStack = new FaeryFoodStackHandler( this, 1 );
+    private OutputStackHandler outputStack = new OutputStackHandler( this, OUTPUT_SIZE );
 
     @Override
     public void update() {
@@ -53,22 +46,22 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
         }
         if( time <= 0 && hasCouple() ){
             if( flag && !worldObj.isRemote ){
-                for( Product product : EnumRace.valueOf( ItemFaery.getRace( inputStack.getStackInSlot(0) ) ).getProducts() ){
+                for( Product product : EnumRace.valueOf( ItemFaery.getRace( coupleStack.getStackInSlot(0) ) ).getProducts() ){
                     int percentage = new Random().nextInt(100);
-                    int foodmodifier = ( inputStack.getStackInSlot(3) != null ) ? 2 : 1;
+                    int foodmodifier = ( foodStack.getStackInSlot(0) != null ) ? 2 : 1;
                     if( percentage < 0.5f * product.getChance() * foodmodifier ) {
                         setItemStackInOutputSlot( product.getItemStack() );
                     }
                 }
-                if( inputStack.getStackInSlot(3) != null ){ inputStack.extractItem( 3, 1, false ); }
-                int age = ItemFaery.getAge( inputStack.getStackInSlot(0) );
+                if( foodStack.getStackInSlot(0) != null ){ foodStack.extractItem( 0, 1, false ); }
+                int age = ItemFaery.getAge( coupleStack.getStackInSlot(0) );
                 age = Math.max( 0, age-1 );
-                if( age > 0 ){ ModItems.faery.setAge( inputStack.getStackInSlot(0), age ); } else{
+                if( age > 0 ){ ModItems.faery.setAge( coupleStack.getStackInSlot(0), age ); } else{
                     for( int i=1; i<=3; i++ ){
-                        ItemStack offspring = ModItems.faery.getOffspring( inputStack.getStackInSlot(0) );
+                        ItemStack offspring = ModItems.faery.getOffspring( coupleStack.getStackInSlot(0) );
                         setItemStackInOutputSlot( offspring );
                     }
-                    inputStack.extractItem( 0, 1, false );
+                    coupleStack.extractItem( 0, 1, false );
                 }
             }
             time = MAX_TIME;
@@ -82,13 +75,13 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
         }
         if( marrytime <= 0 && canMarry() ){
             if( marryflag && !worldObj.isRemote ){
-                ItemStack couple = inputStack.getStackInSlot(1).copy();
+                ItemStack couple = maleStack.getStackInSlot(0).copy();
                 couple.stackSize = 1;
                 couple = ModItems.faery.setGender( couple, ItemFaery.EnumGender.COUPLE.toString() );
-                couple = ModItems.faery.setCoupleTraits( couple, inputStack.getStackInSlot(2) );
-                inputStack.insertItem( 0, couple, false );
-                inputStack.extractItem( 1, 1, false );
-                inputStack.extractItem( 2, 1, false );
+                couple = ModItems.faery.setCoupleTraits( couple, femaleStack.getStackInSlot(0) );
+                coupleStack.insertItem( 0, couple, false );
+                maleStack.extractItem( 0, 1, false );
+                femaleStack.extractItem( 0, 1, false );
             }
             marrytime = MAX_MARRYTIME;
             marryflag = true;
@@ -99,8 +92,17 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
     @Override
     public void readFromNBT( NBTTagCompound compound ){
         super.readFromNBT( compound );
-        if( compound.hasKey( "input" ) ){
-            inputStack.deserializeNBT( (NBTTagCompound) compound.getTag( "input" ) );
+        if( compound.hasKey( "couple" ) ){
+            coupleStack.deserializeNBT( (NBTTagCompound) compound.getTag( "couple" ) );
+        }
+        if( compound.hasKey( "male" ) ){
+            maleStack.deserializeNBT( (NBTTagCompound) compound.getTag( "male" ) );
+        }
+        if( compound.hasKey( "female" ) ){
+            femaleStack.deserializeNBT( (NBTTagCompound) compound.getTag( "female" ) );
+        }
+        if( compound.hasKey( "food" ) ){
+            foodStack.deserializeNBT( (NBTTagCompound) compound.getTag( "food" ) );
         }
         if( compound.hasKey( "output" ) ){
             outputStack.deserializeNBT( (NBTTagCompound) compound.getTag( "output" ) );
@@ -117,7 +119,10 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
     @Override
     public NBTTagCompound writeToNBT( NBTTagCompound compound ){
         super.writeToNBT( compound );
-        compound.setTag( "input", inputStack.serializeNBT() );
+        compound.setTag( "couple", coupleStack.serializeNBT() );
+        compound.setTag( "male", maleStack.serializeNBT() );
+        compound.setTag( "female", femaleStack.serializeNBT() );
+        compound.setTag( "food", foodStack.serializeNBT() );
         compound.setTag( "output", outputStack.serializeNBT() );
         compound.setInteger( "time", time );
         return compound;
@@ -132,16 +137,16 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
         if( capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ){
             return true;
         }
-        return super.hasCapability(capability, facing);
+        return super.hasCapability( capability, facing );
     }
 
     @Override
     public <T> T getCapability( Capability<T> capability, EnumFacing facing ){
         if( capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ){
-            if( facing == null ){ return (T) new CombinedInvWrapper( inputStack, outputStack ); }
-            return (T) outputStack;
+            if( facing == null ){ return (T) new CombinedInvWrapper( coupleStack, maleStack, femaleStack, foodStack, outputStack ); }
+            return (T) new CombinedInvWrapper( new AutoFaeryCoupleStackHandler( this, coupleStack ), new AutoFaeryMaleStackHandler( this, maleStack ), new AutoFaeryFemaleStackHandler( this, femaleStack ), new AutoFaeryFoodStackHandler( this, foodStack ), new AutoOutputStackHandler( this, outputStack ) );
         }
-        return super.getCapability(capability, facing);
+        return super.getCapability( capability, facing );
     }
 
     public int getTime(){
@@ -152,15 +157,15 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
     }
 
     public boolean hasCouple(){
-        return ( inputStack.getStackInSlot(0) != null );
+        return ( coupleStack.getStackInSlot(0) != null );
     }
 
     public boolean canMarry(){
-        return ( inputStack.getStackInSlot(0) == null ) && ( inputStack.getStackInSlot(1) != null ) && ( inputStack.getStackInSlot(2) != null );
+        return ( coupleStack.getStackInSlot(0) == null ) && ( maleStack.getStackInSlot(0) != null ) && ( femaleStack.getStackInSlot(0) != null );
     }
 
     public ItemStack getCouple(){
-        return inputStack.getStackInSlot(0);
+        return coupleStack.getStackInSlot(0);
     }
 
     private void setItemStackInOutputSlot( ItemStack itemstack ){
@@ -174,6 +179,115 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
                 worldObj.spawnEntityInWorld( produceEntity );
                 temp = true;
             }
+        }
+    }
+
+    public class FaeryCoupleStackHandler extends InputStackHandler{
+
+        public FaeryCoupleStackHandler( TileEntity te, int size ){
+            super( te, size );
+        }
+
+        @Override
+        public ItemStack insertItem( int slot, ItemStack stack, boolean simulate ){
+            if( !( ( stack.getItem() == ModItems.faery ) && ItemFaery.getGender( stack ).equals( ItemFaery.EnumGender.COUPLE.toString() ) ) ){ return stack; }
+            return super.insertItem( slot, stack, simulate );
+        }
+    }
+
+    public class FaeryMaleStackHandler extends InputStackHandler{
+
+        public FaeryMaleStackHandler( TileEntity te, int size ){
+            super( te, size );
+        }
+
+        @Override
+        public ItemStack insertItem( int slot, ItemStack stack, boolean simulate ){
+            if( !( ( stack.getItem() == ModItems.faery ) && ItemFaery.getGender( stack ).equals( ItemFaery.EnumGender.MALE.toString() ) ) ){ return stack; }
+            return super.insertItem( slot, stack, simulate );
+        }
+    }
+
+    public class FaeryFemaleStackHandler extends InputStackHandler{
+
+        public FaeryFemaleStackHandler( TileEntity te, int size ){
+            super( te, size );
+        }
+
+        @Override
+        public ItemStack insertItem( int slot, ItemStack stack, boolean simulate ){
+            if( !( ( stack.getItem() == ModItems.faery ) && ItemFaery.getGender( stack ).equals( ItemFaery.EnumGender.FEMALE.toString() ) ) ){ return stack; }
+            return super.insertItem( slot, stack, simulate );
+        }
+    }
+
+    public class FaeryFoodStackHandler extends InputStackHandler{
+
+        public FaeryFoodStackHandler( TileEntity te, int size ){
+            super( te, size );
+        }
+
+        @Override
+        public ItemStack insertItem( int slot, ItemStack stack, boolean simulate ){
+            if( stack.getItem() != ModItems.mashedfood ){ return stack; }
+            return super.insertItem( slot, stack, simulate );
+        }
+    }
+
+    public class AutoFaeryCoupleStackHandler extends FaeryCoupleStackHandler{
+
+        public AutoFaeryCoupleStackHandler( TileEntity te, FaeryCoupleStackHandler stackhandler ){
+            super( te, stackhandler.getSlots() );
+            this.stacks = stackhandler.getStacks();
+        }
+
+        @Override
+        public ItemStack extractItem(int slot, int amount, boolean simulate ){
+            return null;
+        }
+    }
+
+    public class AutoFaeryMaleStackHandler extends FaeryMaleStackHandler{
+
+        public AutoFaeryMaleStackHandler( TileEntity te, FaeryMaleStackHandler stackhandler ){
+            super( te, stackhandler.getSlots() );
+            this.stacks = stackhandler.getStacks();
+        }
+
+        @Override
+        public ItemStack extractItem(int slot, int amount, boolean simulate ){
+            return null;
+        }
+    }
+
+    public class AutoFaeryFemaleStackHandler extends FaeryFemaleStackHandler{
+
+        public AutoFaeryFemaleStackHandler( TileEntity te, FaeryFemaleStackHandler stackhandler ){
+            super( te, stackhandler.getSlots() );
+            this.stacks = stackhandler.getStacks();
+        }
+
+        @Override
+        public ItemStack extractItem(int slot, int amount, boolean simulate ){
+            return null;
+        }
+    }
+
+    public class AutoFaeryFoodStackHandler extends FaeryFoodStackHandler{
+
+        public AutoFaeryFoodStackHandler( TileEntity te, FaeryFoodStackHandler stackhandler ){
+            super( te, stackhandler.getSlots() );
+            this.stacks = stackhandler.getStacks();
+        }
+
+        @Override
+        public ItemStack extractItem(int slot, int amount, boolean simulate ){
+            return null;
+        }
+
+        @Override
+        public ItemStack insertItem( int slot, ItemStack stack, boolean simulate ){
+            return stack;
         }
     }
 }

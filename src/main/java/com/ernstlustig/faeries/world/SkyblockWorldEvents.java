@@ -59,7 +59,7 @@ public class SkyblockWorldEvents {
                 world.setBlockState( new BlockPos( x - 2 + i, y - 1, z - 1 + j ), Blocks.GRASS.getDefaultState(), 3 );
                 world.setBlockState( new BlockPos( x - 2 + i, y - 2, z - 1 + j ), Blocks.BEDROCK.getDefaultState(), 3 );
             }
-            world.setBlockState( new BlockPos( x - 2 + i, y, z + 1 ), ModBlocks.faeryhouse.getDefaultState(), 3 );
+            world.setBlockState( new BlockPos( x - 2 + i, y, z + 1 ), ModBlocks.faeryhouse.getStateFromMeta( 2 ), 3 );
         }
         //NETHER PORTAL
         world.setBlockState( new BlockPos( x, y, z + 64 ), Blocks.OBSIDIAN.getDefaultState(), 3 );

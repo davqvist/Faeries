@@ -1,11 +1,15 @@
 package com.ernstlustig.faeries.item;
 
-public class ItemDropWater extends ItemFaeries {
+import net.minecraftforge.fluids.FluidRegistry;
+
+public class ItemDropWater extends ItemDrop {
 
     public ItemDropWater(){
         super();
         setRegistryName("dropwater");
         setUnlocalizedName("dropwater");
+        fluid = FluidRegistry.WATER;
+        amount = 1000;
     }
 
 }

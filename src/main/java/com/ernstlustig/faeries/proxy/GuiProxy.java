@@ -2,10 +2,13 @@ package com.ernstlustig.faeries.proxy;
 
 import com.ernstlustig.faeries.container.ContainerFaeryHouse;
 import com.ernstlustig.faeries.container.ContainerMill;
+import com.ernstlustig.faeries.container.ContainerSqueezer;
 import com.ernstlustig.faeries.gui.GuiFaeryHouse;
 import com.ernstlustig.faeries.gui.GuiMill;
+import com.ernstlustig.faeries.gui.GuiSqueezer;
 import com.ernstlustig.faeries.tileentity.TileEntityFaeryHouse;
 import com.ernstlustig.faeries.tileentity.TileEntityMill;
+import com.ernstlustig.faeries.tileentity.TileEntitySqueezer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -21,8 +24,11 @@ public class GuiProxy implements IGuiHandler {
         if( te instanceof TileEntityFaeryHouse ){
             return new ContainerFaeryHouse( player.inventory, (TileEntityFaeryHouse) te );
         }
-        if( te instanceof TileEntityMill){
+        if( te instanceof TileEntityMill ){
             return new ContainerMill( player.inventory, (TileEntityMill) te );
+        }
+        if( te instanceof TileEntitySqueezer ){
+            return new ContainerSqueezer( player.inventory, (TileEntitySqueezer) te );
         }
         return null;
     }
@@ -38,6 +44,10 @@ public class GuiProxy implements IGuiHandler {
         if( te instanceof TileEntityMill ){
             TileEntityMill containerTileEntity = (TileEntityMill) te;
             return new GuiMill( containerTileEntity, new ContainerMill( player.inventory, containerTileEntity ) );
+        }
+        if( te instanceof TileEntitySqueezer ){
+            TileEntitySqueezer containerTileEntity = (TileEntitySqueezer) te;
+            return new GuiSqueezer( containerTileEntity, new ContainerSqueezer( player.inventory, containerTileEntity ) );
         }
         return null;
     }
