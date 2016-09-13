@@ -1,23 +1,21 @@
 package com.ernstlustig.faeries.tileentity;
 
+import com.ernstlustig.faeries.faerytraits.EffectStatus;
 import com.ernstlustig.faeries.init.ModItems;
-import com.ernstlustig.faeries.item.EnumRace;
+import com.ernstlustig.faeries.faerytraits.EnumRace;
 import com.ernstlustig.faeries.item.ItemFaery;
-import com.ernstlustig.faeries.item.Product;
-import com.ernstlustig.faeries.utility.LogHelper;
+import com.ernstlustig.faeries.faerytraits.Product;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
-import sun.rmi.runtime.Log;
 
 import java.util.Random;
 
@@ -72,6 +70,10 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
             }
             time = MAX_TIME;
             flag = true;
+        }
+        if( time % 100 == 0 && hasCouple() && ItemFaery.getEffect( coupleStack.getStackInSlot(0) ) != 0 ){
+            EffectStatus effect = new EffectStatus( Potion.getPotionById( ItemFaery.getEffect( coupleStack.getStackInSlot(0) ) ) );
+            effect.doEffect( this );
         }
         time--;
 

@@ -1,4 +1,4 @@
-package com.ernstlustig.faeries.item;
+package com.ernstlustig.faeries.faerytraits;
 
 public enum EnumLifespan {
     SHORTEST( 2 ),

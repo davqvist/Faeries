@@ -1,7 +1,7 @@
 package com.ernstlustig.faeries.item;
 
 import com.ernstlustig.faeries.init.ModItems;
-import com.ernstlustig.faeries.utility.LogHelper;
+import com.ernstlustig.faeries.faerytraits.EnumRace;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

@@ -1,6 +1,7 @@
 package com.ernstlustig.faeries.init;
 
 import com.ernstlustig.faeries.item.*;
+import com.ernstlustig.faeries.faerytraits.EnumRace;
 import com.ernstlustig.faeries.renderer.FaeriesMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;

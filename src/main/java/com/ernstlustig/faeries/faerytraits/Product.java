@@ -1,4 +1,4 @@
-package com.ernstlustig.faeries.item;
+package com.ernstlustig.faeries.faerytraits;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

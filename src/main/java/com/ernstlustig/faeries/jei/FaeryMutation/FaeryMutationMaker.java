@@ -1,6 +1,6 @@
 package com.ernstlustig.faeries.jei.FaeryMutation;
 
-import com.ernstlustig.faeries.item.EnumRace;
+import com.ernstlustig.faeries.faerytraits.EnumRace;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.ernstlustig.faeries.item;
+package com.ernstlustig.faeries.faerytraits;
 
 public enum EnumProductivity {
     SLOWEST( 0.5f ),

@@ -1,9 +1,9 @@
 package com.ernstlustig.faeries.jei.FaeryMutation;
 
 import com.ernstlustig.faeries.init.ModItems;
-import com.ernstlustig.faeries.item.EnumRace;
+import com.ernstlustig.faeries.faerytraits.EnumRace;
 import com.ernstlustig.faeries.item.ItemFaery;
-import com.ernstlustig.faeries.item.Mutation;
+import com.ernstlustig.faeries.faerytraits.Mutation;
 import mezz.jei.api.recipe.BlankRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
