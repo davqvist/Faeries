@@ -31,12 +31,18 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
     private boolean marryflag;
     public static final int MAX_TIME = 400;
     public static final int MAX_MARRYTIME = 100;
+    private final float housemodifier;
 
     private FaeryCoupleStackHandler coupleStack = new FaeryCoupleStackHandler( this, 1 );
     private FaeryMaleStackHandler maleStack = new FaeryMaleStackHandler( this, 1 );
     private FaeryFemaleStackHandler femaleStack = new FaeryFemaleStackHandler( this, 1 );
     private FaeryFoodStackHandler foodStack = new FaeryFoodStackHandler( this, 1 );
     private OutputStackHandler outputStack = new OutputStackHandler( this, OUTPUT_SIZE );
+
+    public TileEntityFaeryHouse( float housemodifier ){
+        super();
+        this.housemodifier = housemodifier;
+    }
 
     @Override
     public void update() {
@@ -49,7 +55,7 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
                 for( Product product : EnumRace.valueOf( ItemFaery.getRace( coupleStack.getStackInSlot(0) ) ).getProducts() ){
                     int percentage = new Random().nextInt(100);
                     int foodmodifier = ( foodStack.getStackInSlot(0) != null ) ? 2 : 1;
-                    if( percentage < 0.5f * product.getChance() * foodmodifier ) {
+                    if( percentage < housemodifier * product.getChance() * foodmodifier * ItemFaery.getProductivity( coupleStack.getStackInSlot(0) ) ) {
                         setItemStackInOutputSlot( product.getItemStack() );
                     }
                 }
@@ -57,7 +63,7 @@ public class TileEntityFaeryHouse extends TileEntity implements ITickable {
                 int age = ItemFaery.getAge( coupleStack.getStackInSlot(0) );
                 age = Math.max( 0, age-1 );
                 if( age > 0 ){ ModItems.faery.setAge( coupleStack.getStackInSlot(0), age ); } else{
-                    for( int i=1; i<=3; i++ ){
+                    for( int i=1; i <= ItemFaery.getFertility( coupleStack.getStackInSlot(0) ); i++ ){
                         ItemStack offspring = ModItems.faery.getOffspring( coupleStack.getStackInSlot(0) );
                         setItemStackInOutputSlot( offspring );
                     }

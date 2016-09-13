@@ -34,6 +34,7 @@ public class BlockFaeryHouseBase extends BlockFaeries implements ITileEntityProv
 
     public static final int GUI_ID = 1;
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
+    protected float housemodifier;
     protected AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB( 0.0625 * 5, 0, 0.0625 * 5, 0.0625 * 11, 0.0625 * 6, 0.0625 * 11 );
 
     public BlockFaeryHouseBase(){
@@ -41,6 +42,7 @@ public class BlockFaeryHouseBase extends BlockFaeries implements ITileEntityProv
         setHardness( 1.5F );
         setHarvestLevel( "axe", 0 );
         this.setDefaultState( this.blockState.getBaseState().withProperty( FACING, EnumFacing.SOUTH ) );
+        housemodifier = 0.5f;
     }
 
     @Override
@@ -70,7 +72,7 @@ public class BlockFaeryHouseBase extends BlockFaeries implements ITileEntityProv
 
     @Override
     public TileEntity createNewTileEntity( World worldIn, int meta ) {
-        return new TileEntityFaeryHouse();
+        return new TileEntityFaeryHouse( housemodifier );
     }
 
     public IBlockState onBlockPlaced( World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer ){

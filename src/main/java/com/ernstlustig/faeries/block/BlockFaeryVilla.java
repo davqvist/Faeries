@@ -11,6 +11,7 @@ public class BlockFaeryVilla extends BlockFaeryHouseBase {
         setRegistryName( "faeryvilla" );
         this.setUnlocalizedName( "faeryvilla" );
         BOUNDING_BOX = new AxisAlignedBB( 0.0625 * 3, 0, 0.0625 * 3, 0.0625 * 13, 0.0625 * 9, 0.0625 * 13 );
+        housemodifier = 1.0f;
     }
 
     @Override

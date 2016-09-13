@@ -25,6 +25,7 @@ public class ItemFaery extends ItemFaeries {
         setUnlocalizedName("faery");
     }
 
+    // RACE
     public static String getRace( ItemStack itemstack ){
         NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
         if( nbtTagCompound.hasKey( "race" ) ){ return nbtTagCompound.getString( "race" ); }
@@ -74,6 +75,7 @@ public class ItemFaery extends ItemFaeries {
         return itemstack;
     }
 
+    //GENDER
     public static String getGender( ItemStack itemstack ){
         NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
         if( nbtTagCompound.hasKey( "gender" ) ){ return nbtTagCompound.getString( "gender" ); }
@@ -83,10 +85,10 @@ public class ItemFaery extends ItemFaeries {
     public ItemStack setGender( ItemStack itemstack, String name ){
         NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
         nbtTagCompound.setString( "gender", name );
-        //if( name.equals( EnumGender.COUPLE ) ){ itemstack.getItem().setMaxStackSize( 1 ); }
         return itemstack;
     }
 
+    //AGE
     public static int getAge( ItemStack itemstack ){
         NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
         if( nbtTagCompound.hasKey( "age" ) ){ return nbtTagCompound.getInteger( "age" ); }
@@ -99,6 +101,7 @@ public class ItemFaery extends ItemFaeries {
         return itemstack;
     }
 
+    //LIFESPAN
     public static int getLifespan( ItemStack itemstack ){
         NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
         if( nbtTagCompound.hasKey( "lifespan" ) ){ return nbtTagCompound.getInteger( "lifespan" ); }
@@ -118,7 +121,7 @@ public class ItemFaery extends ItemFaeries {
         NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
         if( nbtTagCompound.hasKey( "passivelifespan" ) ){ return nbtTagCompound.getInteger( "passivelifespan" ); }
         int maxage = EnumRace.valueOf( ModItems.faery.getPassiveRace( itemstack ) ).getLifespan().getMaxAge();
-        ModItems.faery.setPassiveLifespan( itemstack, maxage );
+        itemstack = ModItems.faery.setPassiveLifespan( itemstack, maxage );
         return maxage;
     }
 
@@ -152,12 +155,124 @@ public class ItemFaery extends ItemFaeries {
         return itemstack;
     }
 
+    //FERTILITY
+    public static int getFertility( ItemStack itemstack ){
+        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
+        if( nbtTagCompound.hasKey( "fertility" ) ){ return nbtTagCompound.getInteger( "fertility" ); }
+        int fertility = EnumRace.valueOf( ModItems.faery.getRace( itemstack ) ).getFertility();
+        itemstack = ModItems.faery.setFertility( itemstack, fertility );
+        if( !nbtTagCompound.hasKey( "passivefertility" ) ){ int temp = getPassiveFertility( itemstack ); }
+        return fertility;
+    }
+
+    public ItemStack setFertility( ItemStack itemstack, int fertility ){
+        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
+        nbtTagCompound.setInteger( "fertility", fertility );
+        return itemstack;
+    }
+
+    public static int getPassiveFertility( ItemStack itemstack ){
+        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
+        if( nbtTagCompound.hasKey( "passivefertility" ) ){ return nbtTagCompound.getInteger( "passivefertility" ); }
+        int fertility = EnumRace.valueOf( ModItems.faery.getPassiveRace( itemstack ) ).getFertility();
+        itemstack = ModItems.faery.setPassiveFertility( itemstack, fertility );
+        return fertility;
+    }
+
+    public ItemStack setPassiveFertility( ItemStack itemstack, int lifespan ){
+        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
+        nbtTagCompound.setInteger( "passivefertility", lifespan );
+        return itemstack;
+    }
+
+    public static int getCoupleFertility( ItemStack itemstack ){
+        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
+        if( nbtTagCompound.hasKey( "couplefertility" ) ){ return nbtTagCompound.getInteger( "couplefertility" ); }
+        return 0;
+    }
+
+    public ItemStack setCoupleFertility( ItemStack itemstack, int fertility ){
+        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
+        nbtTagCompound.setInteger( "couplefertility", fertility );
+        return itemstack;
+    }
+
+    public static int getCouplePassiveFertility( ItemStack itemstack ){
+        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
+        if( nbtTagCompound.hasKey( "couplepassivefertility" ) ){ return nbtTagCompound.getInteger( "couplepassivefertility" ); }
+        return 0;
+    }
+
+    public ItemStack setCouplePassiveFertility( ItemStack itemstack, int fertility ){
+        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
+        nbtTagCompound.setInteger( "couplepassivefertility", fertility );
+        return itemstack;
+    }
+
+    //PRODUCTIVITY
+    public static float getProductivity( ItemStack itemstack ){
+        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
+        if( nbtTagCompound.hasKey( "productivity" ) ){ return nbtTagCompound.getFloat( "productivity" ); }
+        float productivity = EnumRace.valueOf( ModItems.faery.getRace( itemstack ) ).getProductivity().getProductivity();
+        itemstack = ModItems.faery.setProductivity( itemstack, productivity );
+        if( !nbtTagCompound.hasKey( "passiveproductivity" ) ){ float temp = getPassiveProductivity( itemstack ); }
+        return productivity;
+    }
+
+    public ItemStack setProductivity( ItemStack itemstack, float productivity ){
+        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
+        nbtTagCompound.setFloat( "productivity", productivity );
+        return itemstack;
+    }
+
+    public static float getPassiveProductivity( ItemStack itemstack ){
+        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
+        if( nbtTagCompound.hasKey( "passiveproductivity" ) ){ return nbtTagCompound.getFloat( "passiveproductivity" ); }
+        float productivity = EnumRace.valueOf( ModItems.faery.getPassiveRace( itemstack ) ).getProductivity().getProductivity();
+        itemstack = ModItems.faery.setPassiveProductivity( itemstack, productivity );
+        return productivity;
+    }
+
+    public ItemStack setPassiveProductivity( ItemStack itemstack, float productivity ){
+        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
+        nbtTagCompound.setFloat( "passiveproductivity", productivity );
+        return itemstack;
+    }
+
+    public static float getCoupleProductivity( ItemStack itemstack ){
+        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
+        if( nbtTagCompound.hasKey( "coupleproductivity" ) ){ return nbtTagCompound.getFloat( "coupleproductivity" ); }
+        return 0;
+    }
+
+    public ItemStack setCoupleProductivity( ItemStack itemstack, float productivity ){
+        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
+        nbtTagCompound.setFloat( "coupleproductivity", productivity );
+        return itemstack;
+    }
+
+    public static float getCouplePassiveProductivity( ItemStack itemstack ){
+        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
+        if( nbtTagCompound.hasKey( "couplepassiveproductivity" ) ){ return nbtTagCompound.getFloat( "couplepassiveproductivity" ); }
+        return 0;
+    }
+
+    public ItemStack setCouplePassiveProductivity( ItemStack itemstack, float productivity ){
+        NBTTagCompound nbtTagCompound = NBTHelper.getTagCompound( itemstack );
+        nbtTagCompound.setFloat( "couplepassiveproductivity", productivity );
+        return itemstack;
+    }
+
     public ItemStack setCoupleTraits( ItemStack itemstack, ItemStack female ){
         if( ItemFaery.getGender( itemstack ).equals( EnumGender.COUPLE.toString() ) ) {
             itemstack = ModItems.faery.setCoupleRace( itemstack, ItemFaery.getRace( female ) );
             itemstack = ModItems.faery.setCouplePassiveRace( itemstack, ItemFaery.getPassiveRace( female ) );
             itemstack = ModItems.faery.setCoupleLifespan( itemstack, ItemFaery.getLifespan( female ) );
             itemstack = ModItems.faery.setCouplePassiveLifespan( itemstack, ItemFaery.getPassiveLifespan( female ) );
+            itemstack = ModItems.faery.setCoupleFertility( itemstack, ItemFaery.getFertility( female ) );
+            itemstack = ModItems.faery.setCouplePassiveFertility( itemstack, ItemFaery.getPassiveFertility( female ) );
+            itemstack = ModItems.faery.setCoupleProductivity( itemstack, ItemFaery.getProductivity( female ) );
+            itemstack = ModItems.faery.setCouplePassiveProductivity( itemstack, ItemFaery.getPassiveProductivity( female ) );
         }
         return itemstack;
     }
@@ -167,6 +282,8 @@ public class ItemFaery extends ItemFaeries {
             ItemStack offspring = new ItemStack( ModItems.faery );
             List<String> races = Arrays.asList( ModItems.faery.getRace( itemstack ), ModItems.faery.getPassiveRace( itemstack ), ModItems.faery.getCoupleRace( itemstack ), ModItems.faery.getCouplePassiveRace( itemstack ) );
             List<Integer> lifespans = Arrays.asList( ModItems.faery.getLifespan( itemstack ), ModItems.faery.getPassiveLifespan( itemstack ), ModItems.faery.getCoupleLifespan( itemstack ), ModItems.faery.getCouplePassiveLifespan( itemstack ) );
+            List<Integer> fertilities = Arrays.asList( ModItems.faery.getFertility( itemstack ), ModItems.faery.getPassiveFertility( itemstack ), ModItems.faery.getCoupleFertility( itemstack ), ModItems.faery.getCouplePassiveFertility( itemstack ) );
+            List<Float> productivities = Arrays.asList( ModItems.faery.getProductivity( itemstack ), ModItems.faery.getPassiveProductivity( itemstack ), ModItems.faery.getCoupleProductivity( itemstack ), ModItems.faery.getCouplePassiveProductivity( itemstack ) );
             int[][] mapping = new int[][]{ { 0, 2 }, { 0, 3 }, { 1, 2 }, { 1, 3 } };
             //Mutationcheck 1
             int coin = Minecraft.getMinecraft().theWorld.rand.nextInt(4);
@@ -190,6 +307,10 @@ public class ItemFaery extends ItemFaeries {
                 race = EnumRace.valueOf( races.get( mapping[coin][coin2] ) );
                 coin2 = Minecraft.getMinecraft().theWorld.rand.nextInt(2);
                 offspring = ModItems.faery.setLifespan( offspring, lifespans.get( mapping[coin][coin2] ) );
+                coin2 = Minecraft.getMinecraft().theWorld.rand.nextInt(2);
+                offspring = ModItems.faery.setFertility( offspring, fertilities.get( mapping[coin][coin2] ) );
+                coin2 = Minecraft.getMinecraft().theWorld.rand.nextInt(2);
+                offspring = ModItems.faery.setProductivity( offspring, productivities.get( mapping[coin][coin2] ) );
             }
             offspring = ModItems.faery.setRace( offspring, race.toString() );
             //Mutationcheck 2
@@ -213,6 +334,10 @@ public class ItemFaery extends ItemFaeries {
                 race = EnumRace.valueOf( races.get( mapping[coin][coin2] ) );
                 coin2 = Minecraft.getMinecraft().theWorld.rand.nextInt(2);
                 offspring = ModItems.faery.setPassiveLifespan( offspring, lifespans.get( mapping[coin][coin2] ) );
+                coin2 = Minecraft.getMinecraft().theWorld.rand.nextInt(2);
+                offspring = ModItems.faery.setPassiveFertility( offspring, fertilities.get( mapping[coin][coin2] ) );
+                coin2 = Minecraft.getMinecraft().theWorld.rand.nextInt(2);
+                offspring = ModItems.faery.setPassiveProductivity( offspring, productivities.get( mapping[coin][coin2] ) );
             }
             offspring = ModItems.faery.setPassiveRace( offspring, race.toString() );
             coin = Minecraft.getMinecraft().theWorld.rand.nextInt(2);
@@ -235,15 +360,18 @@ public class ItemFaery extends ItemFaeries {
     }
 
     @SideOnly(Side.CLIENT)
-    public void addInformation( ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced )
-    {
+    public void addInformation( ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced ){
         super.addInformation( stack, playerIn, tooltip, advanced );
         if( !ModItems.faery.getRace( stack ).equals( "default") ){
             tooltip.add( "Race: " + ModItems.faery.getRace( stack ) + " (" + ModItems.faery.getPassiveRace( stack ) + ")");
             tooltip.add( "Lifespan: " + EnumLifespan.getLifespanFromMaxAge( ModItems.faery.getLifespan( stack ) ) + " (" + EnumLifespan.getLifespanFromMaxAge( ModItems.faery.getPassiveLifespan( stack ) ) + ")" );
+            tooltip.add( "Fertility: " + ModItems.faery.getFertility( stack ) + " (" + ModItems.faery.getPassiveFertility( stack ) + ")" );
+            tooltip.add( "Productivity: " + EnumProductivity.getProductivityfromModifier( ModItems.faery.getProductivity( stack ) ) + " (" + EnumProductivity.getProductivityfromModifier( ModItems.faery.getPassiveProductivity( stack ) ) + ")" );
             if( ModItems.faery.getGender( stack ).equals( EnumGender.COUPLE.toString() ) ){
                 tooltip.add( "  Race: " + ModItems.faery.getCoupleRace( stack ) + " (" + ModItems.faery.getCouplePassiveRace( stack ) + ")");
                 tooltip.add( "  Lifespan: " + EnumLifespan.getLifespanFromMaxAge( ModItems.faery.getCoupleLifespan( stack ) ) + " (" + EnumLifespan.getLifespanFromMaxAge( ModItems.faery.getCouplePassiveLifespan( stack ) ) + ")" );
+                tooltip.add( "  Fertility: " + ModItems.faery.getCoupleFertility( stack ) + " (" + ModItems.faery.getCouplePassiveFertility( stack ) + ")" );
+                tooltip.add( "  Productivity: " + EnumProductivity.getProductivityfromModifier( ModItems.faery.getCoupleProductivity( stack ) ) + " (" + EnumProductivity.getProductivityfromModifier( ModItems.faery.getCouplePassiveProductivity( stack ) ) + ")" );
             }
         }
     }
