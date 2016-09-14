@@ -28,7 +28,7 @@ public class SkyblockWorldEvents {
 
             if( player.ticksExisted > 3 && !nbtTagCompound.getBoolean( "made_island" ) ){
                 World world = player.worldObj;
-                if( WorldTypeSkyblock.isWorldSkyblock( world ) ){
+                if( world.getWorldType() instanceof WorldTypeSkyblock ){
                     BlockPos coords = world.getSpawnPoint();
                     if( world.provider.getDimension() == 0 ) {
                         spawnPlayer( player, coords.getX(), coords.getY(), coords.getZ(), false );

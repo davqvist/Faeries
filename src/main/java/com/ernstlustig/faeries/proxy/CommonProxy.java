@@ -5,10 +5,10 @@ import com.ernstlustig.faeries.init.ModBlocks;
 import com.ernstlustig.faeries.init.ModItems;
 import com.ernstlustig.faeries.init.Recipes;
 import com.ernstlustig.faeries.utility.LogHelper;
-import com.ernstlustig.faeries.world.SkyblockTerrainEvents;
-import com.ernstlustig.faeries.world.SkyblockWorldEvents;
-import com.ernstlustig.faeries.world.WorldTypeSkyblock;
+import com.ernstlustig.faeries.world.*;
 import net.minecraft.client.Minecraft;
+import net.minecraft.world.DimensionType;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -32,6 +32,12 @@ public abstract class CommonProxy {
         Recipes.init();
         MinecraftForge.EVENT_BUS.register( new SkyblockWorldEvents() );
         MinecraftForge.TERRAIN_GEN_BUS.register( new SkyblockTerrainEvents() );
+
+        DimensionManager.unregisterDimension( -1 );
+        DimensionManager.registerDimension( -1, DimensionType.register( "Nether", "_nether", -1, WorldProviderSkyblockHell.class, false ) );
+
+        DimensionManager.unregisterDimension( 1 );
+        DimensionManager.registerDimension( 1, DimensionType.register( "The End", "_end", 1, WorldProviderSkyblockEnd.class, false ) );
     }
 
     public void postInit( FMLPostInitializationEvent e ) {

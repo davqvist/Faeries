@@ -2,13 +2,11 @@ package com.ernstlustig.faeries.faerytraits;
 
 
 import com.ernstlustig.faeries.tileentity.TileEntityFaeryHouse;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.common.util.INBTSerializable;
 
 import java.util.List;
 

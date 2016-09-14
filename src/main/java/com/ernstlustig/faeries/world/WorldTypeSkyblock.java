@@ -11,10 +11,6 @@ public class WorldTypeSkyblock extends WorldType {
         super("faeries-skyblock");
     }
 
-    public static boolean isWorldSkyblock( World world ){
-        return world.getWorldInfo().getTerrainType() instanceof WorldTypeSkyblock;
-    }
-
     @Override
     public int getMinimumSpawnHeight( World world ){
         return 70;
